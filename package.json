@@ -1,0 +1,25 @@
+{
+    "name": "attendance_dh_app",
+    "version": "1.0.0",
+    "private": true,
+   "type": "module",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.3",
+        "exceljs": "^4.4.0",
+        "express": "^4.18.2",
+        "pg": "^8.7.3",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "react-router-dom": "^6.3.0"
+    },
+    "devDependencies": {
+        "vite": "^6.0.0",
+        "@vitejs/plugin-react": "^4.0.0"
+    },
+    "scripts": {
+        "start": "vite",
+        "build": "vite build",
+        "serve": "vite preview"
+    }
+}
