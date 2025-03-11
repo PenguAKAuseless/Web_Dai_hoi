@@ -1,15 +1,24 @@
 import express from 'express';
 import pool from './db.js';
+import session from 'express-session';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const router = express.Router();
 
-let isAdminLoggedIn = false;
+router.use(session({
+    secret: process.env.SESSION_SECRET || 'fallbackSecretKey', // Secure key
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: process.env.NODE_ENV === 'production' }
+}));
 
 // Admin Login
 router.post('/auth/login', (req, res) => {
-    const { password } = req.body;
+    const { account, password } = req.body;
     if (password === process.env.ADMIN_PASS) {
-        isAdminLoggedIn = true;
+        req.session.isAdmin = true;
         res.json({ message: 'Login successful' });
     } else {
         res.status(403).json({ error: 'Invalid password' });
@@ -18,11 +27,27 @@ router.post('/auth/login', (req, res) => {
 
 // Admin Logout
 router.post('/auth/logout', (req, res) => {
-    isAdminLoggedIn = false;
-    res.json({ message: 'Logged out successfully' });
+    req.session.destroy(err => {
+        if (err) return res.status(500).json({ error: 'Logout failed' });
+        res.json({ message: 'Logged out successfully' });
+    });
 });
 
-// Get attendance statistics
+// Middleware to check if admin is logged in
+const isAdmin = (req, res, next) => {
+    if (req.session.isAdmin) {
+        next();
+    } else {
+        res.status(403).json({ error: 'Unauthorized' });
+    }
+};
+
+// Check if user is admin
+router.get('/auth/admin-status', (req, res) => {
+    res.json({ isAdmin: req.session.isAdmin || false });
+});
+
+// Attendance stats (public)
 router.get('/attendance/stats', async (req, res) => {
     try {
         const result = await pool.query('SELECT COUNT(*) as total FROM attendance_log');
@@ -33,10 +58,8 @@ router.get('/attendance/stats', async (req, res) => {
     }
 });
 
-// Check-in attendance
-router.post('/attendance/checkin', async (req, res) => {
-    if (!isAdminLoggedIn) return res.status(403).json({ error: 'Unauthorized' });
-
+// Check-in attendance (admin only)
+router.post('/attendance/checkin', isAdmin, async (req, res) => {
     const { registrationId } = req.body;
     try {
         const attendance = await pool.query('SELECT * FROM attendance WHERE id = $1', [registrationId]);

@@ -5,14 +5,15 @@ export default defineConfig({
     plugins: [react()],
     server: {
         port: 5173,
-        historyApiFallback: true, // Ensures React Router works correctly with SPA
+        host: '0.0.0.0',
+        historyApiFallback: true, 
     },
-    base: '/', // Ensures React Router works correctly
+    base: '/',
     build: {
         outDir: 'dist',
         rollupOptions: {
             output: {
-                manualChunks: undefined, // Ensures one bundle for SPA behavior
+                manualChunks: undefined,
             },
         },
     },

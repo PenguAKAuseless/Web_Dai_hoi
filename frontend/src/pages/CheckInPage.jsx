@@ -1,40 +1,103 @@
-import { useState } from 'react';
-import Navbar from '../components/Navbar';
+import { useState, useEffect } from "react";
+import Navbar from "../components/Navbar";
+import "./CheckInPage.css";
+
+const API_BASE_URL = "http://26.234.170.147:8000";
+
 export default function CheckInPage() {
-    const [registration, setRegistration] = useState(null);
-    const [recent, setRecent] = useState([]);
-    const [id, setId] = useState('');
+    const [queue, setQueue] = useState([]);
+    const [id, setId] = useState("");
+
+    async function checkAdmin() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/auth/admin-status`, {
+                method: "GET",
+                credentials: "include", // Ensures cookies/session are sent
+            });
+            const data = await response.json();
+
+            console.log("Admin status response:", data);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            if (!data.isAdmin) {
+                console.error("Not an admin! Redirecting...");
+                setTimeout(() => {
+                    window.location.href = "/"; // Redirect
+                }, 3000);
+            }
+        } catch (error) {
+            console.error("Admin check failed:", error);
+        }
+    }
+
+
+    useEffect(() => {
+        checkAdmin();
+    }, []);
+
+    useEffect(() => {
+        if (queue.length > 0) {
+            const timer = setTimeout(() => {
+                setQueue((prev) => prev.slice(1));
+            }, 10000);
+            return () => clearTimeout(timer);
+        }
+    }, [queue]);
 
     const checkIn = async () => {
-        const res = await fetch('/api/attendance/checkin', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id: id })
-        });
-        if (res.ok) {
+        try {
+            const res = await fetch(`${API_BASE_URL}/api/attendance/checkin`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ registrationId: id }),
+                credentials: 'include'
+            });
+
+            if (!res.ok) throw new Error("Check-in failed");
+
             const data = await res.json();
-            setRegistration(data.registration);
-            setRecent(prev => [data.registration.name, ...prev.slice(0, 4)]);
+            if (data.attendance) {
+                setQueue((prev) => [...prev, data.attendance]);
+            } else {
+                console.error("Invalid check-in response:", data);
+            }
+        } catch (error) {
+            console.error("Check-in error:", error.message);
         }
     };
 
     return (
-        <div>
+        <div className="checkin-page">
             <Navbar />
-            <div className="p-8">
-                <input value={id} onChange={e => setId(e.target.value)} className="border p-2" placeholder="Enter ID" />
-                <button onClick={checkIn} className="ml-2 bg-green-500 p-2">Check-in</button>
+            <div className="input-section">
+                <input
+                    value={id}
+                    onChange={(e) => setId(e.target.value)}
+                    className="input-field"
+                    placeholder="Enter ID"
+                />
+                <button onClick={checkIn} className="checkin-btn">Check-in</button>
             </div>
-            <div className="flex p-4">
-                <div className="w-1/2 bg-gray-200 p-4 text-center">
-                    {registration && (<>
-                        <img src={registration.image_url || '/logo-placeholder.png'} alt="Dai_bieu" className="mx-auto w-24" />
-                        <p>{registration.name} ({registration.id})</p>
-                    </>)}
-                </div>
-                <div className="w-1/2 p-4">
-                    <h3 className="text-xl">Recently Checked-in:</h3>
-                    <ul>{recent.map((name, i) => <li key={i}>{name}</li>)}</ul>
+            <div className="content">
+                <div className="left-section">
+                    {queue.length > 0 ? (
+                        <>
+                            <img
+                                src={queue[0].image_url || "/logo-placeholder.png"}
+                                alt="Checked-in Person"
+                                className="profile-img fade-in"
+                            />
+                            <p className="user-name">{queue[0].name} ({queue[0].id})</p>
+                        </>
+                    ) : (
+                        <>
+                            <img src="/logo.png" alt="Idle" className="idle-img" />
+                            <p className="idle-text">Waiting for Check-in...</p>
+                        </>
+                    )}
                 </div>
             </div>
         </div>

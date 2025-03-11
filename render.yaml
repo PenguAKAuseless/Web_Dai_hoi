@@ -1,0 +1,46 @@
+services:
+  - type: web
+    name: web-dai-hoi-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm run backend
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_USER
+        fromDatabase: web-dai-hoi-db
+        field: username
+      - key: DB_PASS
+        fromDatabase: web-dai-hoi-db
+        field: password
+      - key: DB_HOST
+        fromDatabase: web-dai-hoi-db
+        field: hostname
+      - key: DB_NAME
+        fromDatabase: web-dai-hoi-db
+        field: database
+      - key: DB_PORT
+        fromDatabase: web-dai-hoi-db
+        field: port
+      - key: SESSION_SECRET
+        sync: false
+        value: yourSecretKey
+      - key: ADMIN_PASS
+        sync: false
+        value: yourAdminPassword
+
+  - type: web
+    name: web-dai-hoi-frontend
+    env: static
+    plan: free
+    buildCommand: npm install && npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        value: https://web-dai-hoi-backend.onrender.com
+
+databases:
+  - name: web-dai-hoi-db
+    plan: free
+    postgresVersion: 13

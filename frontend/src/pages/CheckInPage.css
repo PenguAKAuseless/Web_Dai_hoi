@@ -1,0 +1,102 @@
+/* Layout */
+.checkin-page {
+    background: url('background.png') no-repeat center center fixed;
+    background-size: cover;
+    /* Ensures full-page coverage */
+    width: 100vw;
+    /* Full viewport width */
+    height: 100vh;
+    /* Full viewport height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.input-section {
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.input-field {
+    border: 2px solid gray;
+    padding: 10px;
+    width: 200px;
+}
+
+.checkin-btn {
+    background-color: green;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Content */
+.content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 30px;
+}
+
+/* Left Section */
+.left-section {
+    width: 40%;
+    text-align: center;
+}
+
+.profile-img,
+.idle-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+
+.user-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.idle-text {
+    font-size: 16px;
+    color: gray;
+}
+
+/* Right Section */
+.right-section {
+    width: 40%;
+    background-color: lightgray;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.recent-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.recent-list {
+    list-style: none;
+    padding: 0;
+}
+
+/* Transitions */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
