@@ -12,11 +12,15 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASS,
-  port: parseInt(process.env.DB_PORT, 10), // Convert port to number
+  // Uncomment this if you host locally
+  // user: process.env.DB_USER,
+  // host: process.env.DB_HOST,
+  // database: process.env.DB_NAME,
+  // password: process.env.DB_PASS,
+  // port: parseInt(process.env.DB_PORT, 10), // Convert port to number
+  // Uncomment this if you host on Render
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false } // Required for Render
 });
 
 // Ensure table exists
