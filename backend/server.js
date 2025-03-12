@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import session from 'express-session';
 import RedisStore from 'connect-redis';
-import { createClient } from 'ioredis';
+import Redis from 'ioredis';
 import routes from './routes.js';
 
 dotenv.config();
@@ -20,12 +20,12 @@ app.use(cors({
 app.use(express.json());
 
 // Create Redis Client with Improved Error Handling
-const redisClient = createClient({
-    url: process.env.REDIS_URL,
-    socket: {
-        reconnectStrategy: retries => Math.min(retries * 50, 1000), // Retry up to 1000ms
-    }
+const redisClient = new Redis({
+    host: process.env.REDIS_HOST || "localhost",
+    port: process.env.REDIS_PORT || 6379,
+    password: process.env.REDIS_PASSWORD || "",
 });
+
 
 redisClient.on("error", (err) => {
     console.error("⚠️ Redis connection error:", err);
