@@ -8,6 +8,7 @@ export default defineConfig({
         host: '0.0.0.0',
         historyApiFallback: true, 
     },
+    root: 'frontend',
     base: '/',
     build: {
         outDir: 'dist',

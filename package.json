@@ -20,8 +20,8 @@
     },
     "scripts": {
         "backend": "node backend/server.js",
-        "start": "vite",
-        "build": "vite build",
-        "serve": "vite preview"
+        "start": "vite frontend",
+        "build": "vite build frontend",
+        "serve": "vite preview frontend"
     }
 }

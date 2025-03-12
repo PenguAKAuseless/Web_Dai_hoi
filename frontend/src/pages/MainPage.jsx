@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import Navbar from '../components/Navbar';
 import './MainPage.css';
 
-const API_BASE_URL = "http://26.234.170.147:8000";
+const API_BASE_URL = process.env.RENDER_EXTERNAL_URL || "http://26.234.170.147:8000";
 
 export default function MainPage() {
     const [data, setData] = useState({ total: '000', recent: [] });

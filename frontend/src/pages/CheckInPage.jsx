@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import Navbar from "../components/Navbar";
 import "./CheckInPage.css";
 
-const API_BASE_URL = "http://26.234.170.147:8000";
+const API_BASE_URL = process.env.RENDER_EXTERNAL_URL || "http://26.234.170.147:8000";
 
 export default function CheckInPage() {
     const [queue, setQueue] = useState([]);
@@ -71,7 +70,6 @@ export default function CheckInPage() {
 
     return (
         <div className="checkin-page">
-            <Navbar />
             <div className="input-section">
                 <input
                     value={id}
