@@ -1,7 +1,7 @@
 services:
   - type: web
     name: web-dai-hoi-backend
-    env: node
+    runtime: node
     plan: free
     buildCommand: npm install
     startCommand: npm run backend
@@ -9,20 +9,25 @@ services:
       - key: NODE_ENV
         value: production
       - key: DB_USER
-        fromDatabase: web-dai-hoi-db
-        field: username
+        fromDatabase:
+          name: web-dai-hoi-db
+          property: username
       - key: DB_PASS
-        fromDatabase: web-dai-hoi-db
-        field: password
+        fromDatabase:
+          name: web-dai-hoi-db
+          property: password
       - key: DB_HOST
-        fromDatabase: web-dai-hoi-db
-        field: hostname
+        fromDatabase:
+          name: web-dai-hoi-db
+          property: hostname
       - key: DB_NAME
-        fromDatabase: web-dai-hoi-db
-        field: database
+        fromDatabase:
+          name: web-dai-hoi-db
+          property: database
       - key: DB_PORT
-        fromDatabase: web-dai-hoi-db
-        field: port
+        fromDatabase:
+          name: web-dai-hoi-db
+          property: port
       - key: SESSION_SECRET
         sync: false
         value: yourSecretKey
@@ -32,7 +37,7 @@ services:
 
   - type: web
     name: web-dai-hoi-frontend
-    env: static
+    runtime: static
     plan: free
     buildCommand: npm install && npm run build
     staticPublishPath: frontend/dist
@@ -43,4 +48,3 @@ services:
 databases:
   - name: web-dai-hoi-db
     plan: free
-    postgresVersion: 13
