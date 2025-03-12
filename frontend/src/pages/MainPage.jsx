@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import PieChart from '../components/PieChart';
 import './MainPage.css';
 
-const API_BASE_URL = process.env.RENDER_EXTERNAL_URL || "http://26.234.170.147:8000";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function MainPage() {
     const [checkedIn, setCheckedIn] = useState(0);
@@ -10,34 +10,33 @@ export default function MainPage() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [account, setAccount] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const fetchTotalDelegates = async () => {
         try {
             const res = await fetch(`${API_BASE_URL}/api/attendance/stats`);
             const stats = await res.json();
             setTotal(stats.total);
-            localStorage.setItem('totalDelegates', stats.total);
         } catch (error) {
             console.error("Error fetching total delegates:", error);
         }
     };
 
-    const fetchCheckedInCount = () => {
-        const checkedInCount = localStorage.getItem('totalCheckedIn');
-        setCheckedIn(checkedInCount ? parseInt(checkedInCount, 10) : 0);
+    const fetchCheckedInCount = async () => {
+        try {
+            const res = await fetch(`${API_BASE_URL}/api/attendance/stats`);
+            const stats = await res.json();
+            setCheckedIn(stats.checkedIn);
+        } catch (error) {
+            console.error("Error fetching checked-in count:", error);
+        }
     };
 
     useEffect(() => {
-        const totalDelegates = localStorage.getItem('totalDelegates');
-        if (!totalDelegates) {
-            fetchTotalDelegates(); // Fetch total delegates only once if not in local storage
-        } else {
-            setTotal(parseInt(totalDelegates, 10));
-        }
-        fetchCheckedInCount(); // Initial fetch
-        const interval = setInterval(fetchCheckedInCount, 5000); // Fetch every 5 seconds
-
-        return () => clearInterval(interval); // Cleanup interval on component unmount
+        fetchTotalDelegates();
+        fetchCheckedInCount();
+        const interval = setInterval(fetchCheckedInCount, 5000);
+        return () => clearInterval(interval);
     }, []);
 
     const login = async () => {
@@ -50,20 +49,17 @@ export default function MainPage() {
 
             const data = await res.json();
 
-            if (res.ok) {
-                // Show popup message
-                alert("Login successful! Redirecting...");
-
-                // Wait for 3 seconds before redirecting
-                setTimeout(() => {
-                    window.location.href = "/check-in"; // Redirect
-                }, 3000);
-            } else {
-                alert("Login failed: " + data.error); // Show error message
+            if (!res.ok) {
+                setErrorMessage(data.error || "Login failed.");
+                return;
             }
+
+            alert("Login successful! Redirecting...");
+            setTimeout(() => {
+                window.location.href = "/check-in";
+            }, 3000);
         } catch (error) {
-            console.error("Error logging in:", error);
-            alert("An error occurred. Please try again.");
+            setErrorMessage("An error occurred. Please try again.");
         }
     };
 
@@ -75,6 +71,7 @@ export default function MainPage() {
             {menuOpen && (
                 <div className="menu">
                     <h2>Login</h2>
+                    {errorMessage && <p className="error-message">{errorMessage}</p>}
                     <input
                         type="text"
                         value={account}
@@ -93,7 +90,7 @@ export default function MainPage() {
             <div className="content">
                 <div className="left-section">
                     <img src="/logo.png" alt="Class Logo" className="logo" />
-                    <img src="/Ten_Dai_hoi.png" alt="Đại hội Đại biểu Hội Sinh viên Việt Nam khoa Khoa học và Máy tính, nhiệm kỳ 2025 - 2028" className="ten-dai-hoi" />
+                    <img src="/Ten_Dai_hoi.png" alt="Event Title" className="ten-dai-hoi" />
                 </div>
                 <div className="right-section">
                     <PieChart checkedIn={checkedIn} total={total} />

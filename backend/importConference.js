@@ -2,13 +2,19 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import exceljs from 'exceljs';
 import pool from './db.js';
+import fs from 'fs';
 
 // Convert import.meta.url to a file path
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Path to the Excel file (Update if needed)
-const FILE_PATH = path.join(__dirname, 'conference.xlsx');
+const FILE_PATH = process.env.CONFERENCE_FILE_PATH || path.join(__dirname, 'conference.xlsx');
+
+if (!fs.existsSync(FILE_PATH)) {
+    console.error(`🚨 Error: Excel file not found at ${FILE_PATH}`);
+    process.exit(1);
+}
 
 async function createTableIfNotExists(client) {
     try {

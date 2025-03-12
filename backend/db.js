@@ -6,10 +6,9 @@ import { fileURLToPath } from 'url';
 
 // Convert import.meta.url to a file path
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 // Explicitly specify the path to the .env file
-dotenv.config({ path: path.resolve(__dirname, '.env') });
+dotenv.config();
 
 const pool = new Pool({
   // Uncomment this if you host locally

@@ -1,34 +1,29 @@
 import { useState, useEffect } from "react";
 import "./CheckInPage.css";
 
-const API_BASE_URL = process.env.RENDER_EXTERNAL_URL || "http://26.234.170.147:8000";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function CheckInPage() {
     const [queue, setQueue] = useState([]);
     const [id, setId] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     async function checkAdmin() {
         try {
             const response = await fetch(`${API_BASE_URL}/api/auth/admin-status`, {
                 method: "GET",
-                credentials: "include", // Ensures cookies/session are sent
+                credentials: "include",
             });
             const data = await response.json();
 
-            console.log("Admin status response:", data);
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-
-            if (!data.isAdmin) {
-                console.error("Not an admin! Redirecting...");
+            if (!response.ok || !data.isAdmin) {
+                setErrorMessage("Not an admin! Redirecting...");
                 setTimeout(() => {
-                    window.location.href = "/"; // Redirect
+                    window.location.href = "/";
                 }, 3000);
             }
         } catch (error) {
-            console.error("Admin check failed:", error);
+            setErrorMessage("Admin check failed.");
         }
     }
 
@@ -54,23 +49,18 @@ export default function CheckInPage() {
                 credentials: 'include'
             });
 
-            if (!res.ok) throw new Error("Check-in failed");
-
             const data = await res.json();
-            if (data.attendance) {
-                setQueue((prev) => [...prev, data.attendance]);
-                // Update the total count in the local storage
-                localStorage.setItem('totalCheckedIn', data.total);
-            } else {
-                console.error("Invalid check-in response:", data);
-            }
+            if (!res.ok) throw new Error(data.error || "Check-in failed");
+
+            setQueue((prev) => [...prev, data.delegate]);
         } catch (error) {
-            console.error("Check-in error:", error.message);
+            setErrorMessage(error.message);
         }
     };
 
     return (
         <div className="checkin-page">
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
             <div className="input-section">
                 <input
                     value={id}
@@ -89,7 +79,7 @@ export default function CheckInPage() {
                                 alt="Checked-in Person"
                                 className="profile-img fade-in"
                             />
-                            <p className="user-name">{queue[0].name} ({queue[0].id})</p>
+                            <p className="user-name">{queue[0].name} ({queue[0].delegate_id})</p>
                         </>
                     ) : (
                         <>

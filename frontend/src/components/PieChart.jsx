@@ -1,4 +1,3 @@
-// filepath: src/components/PieChart.jsx
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
@@ -7,7 +6,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const PieChart = ({ checkedIn, total }) => {
     const maxCheckedIn = Math.min(checkedIn, 999);
-    const remaining = total - maxCheckedIn;
+    const remaining = Math.max(0, total - maxCheckedIn);
 
     const data = {
         labels: ['Checked In', 'Not Checked In'],
@@ -15,7 +14,7 @@ const PieChart = ({ checkedIn, total }) => {
             {
                 data: [maxCheckedIn, remaining],
                 backgroundColor: ['#ed7d31', '#4472c4'],
-                hoverBackgroundColor: ['#ed7d31', '#4472c4'],
+                hoverBackgroundColor: ['#f09145', '#5a86d6'],
             },
         ],
     };
@@ -24,7 +23,10 @@ const PieChart = ({ checkedIn, total }) => {
         responsive: true,
         plugins: {
             tooltip: {
-                enabled: false,
+                enabled: true,
+                callbacks: {
+                    label: (tooltipItem) => `${tooltipItem.raw} Delegates`
+                }
             },
             legend: {
                 display: false,
@@ -34,7 +36,7 @@ const PieChart = ({ checkedIn, total }) => {
     };
 
     return (
-        <div style={{ position: 'relative', width: '300px', height: '300px' }}>
+        <div style={{ position: 'relative', width: '100%', maxWidth: '300px', height: 'auto' }}>
             <Pie data={data} options={options} />
             <div
                 style={{

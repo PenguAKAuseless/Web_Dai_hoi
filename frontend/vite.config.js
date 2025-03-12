@@ -1,30 +1,17 @@
-{
-    "name": "attendance_dh_app",
-    "version": "1.0.0",
-    "private": true,
-    "type": "module",
-    "dependencies": {
-        "cors": "^2.8.5",
-        "dotenv": "^16.0.3",
-        "exceljs": "^4.4.0",
-        "express": "^4.18.2",
-        "express-session": "^1.17.3",
-        "pg": "^8.7.3",
-        "react": "^19.0.0",
-        "react-dom": "^19.0.0",
-        "react-router-dom": "^6.3.0",
-        "react-chartjs-2": "^5.0.1",
-        "chart.js": "^4.0.1",
-        "firebase": "^9.6.1" // Added Firebase dependency
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+    plugins: [react()],
+    define: {
+        "import.meta.env.VITE_API_BASE_URL": JSON.stringify("https://web-dai-hoi.onrender.com"),
     },
-    "devDependencies": {
-        "vite": "^6.0.0",
-        "@vitejs/plugin-react": "^4.0.0"
+    server: {
+        port: 5173, // Default Vite port
+        open: true,  // Auto-opens in browser
     },
-    "scripts": {
-        "backend": "node backend/server.js",
-        "start": "vite frontend",
-        "build": "vite build frontend",
-        "serve": "vite preview frontend"
+    build: {
+        outDir: "dist", // Firebase uses "dist" as the public directory
+        emptyOutDir: true,
     }
-}
+});

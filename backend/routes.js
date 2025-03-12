@@ -90,10 +90,15 @@ router.get('/conference/:id', async (req, res) => {
 router.post('/attendance/checkin', isAdmin, async (req, res) => {
     const { registrationId } = req.body;
     try {
-        const attendance = await pool.query('SELECT * FROM attendance WHERE id = $1', [registrationId]);
-        if (attendance.rows.length === 0) return res.status(404).json({ error: 'Registration not found' });
-        await pool.query('INSERT INTO attendance_log (id, timestamp) VALUES ($1, NOW())', [registrationId]);
-        res.json({ message: 'Checked in successfully', attendance: attendance.rows[0] });
+        const delegate = await pool.query('SELECT * FROM conference WHERE delegate_id = $1', [registrationId]);
+        if (delegate.rows.length === 0) {
+            return res.status(404).json({ error: 'Delegate not found' });
+        }
+
+        // Insert into attendance_log
+        await pool.query('INSERT INTO attendance_log (delegate_id, timestamp) VALUES ($1, NOW())', [registrationId]);
+
+        res.json({ message: 'Checked in successfully', delegate: delegate.rows[0] });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
