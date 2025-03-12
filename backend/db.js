@@ -19,7 +19,7 @@ const pool = new Pool({
   // password: process.env.DB_PASS,
   // port: parseInt(process.env.DB_PORT, 10), // Convert port to number
   // Uncomment this if you host on Render
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DATABASE_URL || process.env.DB_EXTERNAL_URL,
   ssl: { rejectUnauthorized: false } // Required for Render
 });
 

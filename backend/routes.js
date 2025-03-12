@@ -50,9 +50,37 @@ router.get('/auth/admin-status', (req, res) => {
 // Attendance stats (public)
 router.get('/attendance/stats', async (req, res) => {
     try {
-        const result = await pool.query('SELECT COUNT(*) as total FROM attendance_log');
-        const recent = await pool.query('SELECT s.name FROM attendance_log a JOIN attendance s ON a.id = s.id ORDER BY a.timestamp DESC LIMIT 5');
-        res.json({ total: result.rows[0].total, recent: recent.rows.map(r => r.name) });
+        const result = await pool.query('SELECT COUNT(*) as total FROM conference');
+        res.json({ total: parseInt(result.rows[0].total) });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Get delegate info if they exist in conference
+router.get('/conference/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        // Check if delegate exists in the conference table
+        const result = await pool.query('SELECT * FROM conference WHERE delegate_id = $1', [id]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Delegate not found' });
+        }
+
+        // Check attendance status
+        const attendanceResult = await pool.query(
+            'SELECT COUNT(*) as checkins FROM attendance_log WHERE delegate_id = $1',
+            [id]
+        );
+
+        // Return delegate info along with attendance check-in count
+        res.json({
+            delegate: result.rows[0],
+            checkins: parseInt(attendanceResult.rows[0].checkins) // Number of times checked in
+        });
+
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

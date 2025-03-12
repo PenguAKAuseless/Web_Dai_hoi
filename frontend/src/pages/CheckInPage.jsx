@@ -32,7 +32,6 @@ export default function CheckInPage() {
         }
     }
 
-
     useEffect(() => {
         checkAdmin();
     }, []);
@@ -60,6 +59,8 @@ export default function CheckInPage() {
             const data = await res.json();
             if (data.attendance) {
                 setQueue((prev) => [...prev, data.attendance]);
+                // Update the total count in the local storage
+                localStorage.setItem('totalCheckedIn', data.total);
             } else {
                 console.error("Invalid check-in response:", data);
             }
