@@ -35,21 +35,13 @@ app.use(express.json());
 app.use(session({
     secret: process.env.SESSION_SECRET || 'defaultSecret',
     resave: false,
-    saveUninitialized: true, // Ensures session starts before login
+    saveUninitialized: false,
     cookie: {
-        secure: process.env.NODE_ENV === "production",
+        secure: process.env.NODE_ENV === "production", // Only secure cookies in production
         httpOnly: true,
         sameSite: "None"
     }
 }));
-
-// Initialize session with isAdmin = false
-app.use((req, res, next) => {
-    if (req.session.isAdmin === undefined) {
-        req.session.isAdmin = false;  // Default to false before login
-    }
-    next();
-});
 
 // Run importConference.js on server startup
 console.log("🚀 Running importConference.js on server start...");
