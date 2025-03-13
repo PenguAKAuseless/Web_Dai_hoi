@@ -57,7 +57,7 @@ export default function MainPage() {
             alert("Login successful! Redirecting...");
             setTimeout(() => {
                 window.location.href = "/check-in";
-            }, 3000);
+            }, 10000);
         } catch (error) {
             setErrorMessage("An error occurred. Please try again.");
         }

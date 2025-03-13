@@ -20,7 +20,7 @@ export default function CheckInPage() {
                 setErrorMessage("Not an admin! Redirecting...");
                 setTimeout(() => {
                     window.location.href = "/";
-                }, 3000);
+                }, 10000);
             }
         } catch (error) {
             setErrorMessage("Admin check failed.");
