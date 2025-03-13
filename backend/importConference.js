@@ -1,46 +1,65 @@
-import axios from 'axios';
-import pool from './db.js';
-import csvParser from 'csv-parser';
-import { Readable } from 'stream';
+import axios from "axios";
+import fs from "fs";
+import pool from "./db.js";
+import csvParser from "csv-parser";
+import { Readable } from "stream";
 
 // Google Sheets CSV URL (Replace `gid` if using a different sheet)
-const SHEET_URL = process.env.GOOGLE_SHEETS_CSV_URL || "https://docs.google.com/spreadsheets/d/1WpizSAh5iUkjF32k8KvMVMC4Qfie5lPt/gviz/tq?tqx=out:csv&gid=286016700";
+const SHEET_URL =
+    process.env.GOOGLE_SHEETS_CSV_URL ||
+    "https://docs.google.com/spreadsheets/d/1WpizSAh5iUkjF32k8KvMVMC4Qfie5lPt/gviz/tq?tqx=out:csv&gid=286016700";
 
-// Function to fetch and parse CSV from Google Sheets
-async function fetchAndImportData() {
+// Local file path
+const FILE_PATH = "./conference_data.csv";
+
+// Function to download and save CSV
+async function downloadSheet() {
     try {
-        console.log("📥 Fetching conference data from Google Sheets...");
-        const response = await axios.get(SHEET_URL);
+        console.log("📥 Downloading Google Sheet...");
+        const response = await axios.get(SHEET_URL, { responseType: "stream" });
 
-        if (!response.data) {
-            throw new Error("❌ No data received from Google Sheets.");
-        }
+        // Save CSV file locally
+        const writer = fs.createWriteStream(FILE_PATH);
+        response.data.pipe(writer);
 
-        // Convert CSV string to stream
-        const csvStream = Readable.from(response.data);
+        return new Promise((resolve, reject) => {
+            writer.on("finish", () => {
+                console.log("✅ File downloaded successfully:", FILE_PATH);
+                resolve();
+            });
+            writer.on("error", reject);
+        });
+    } catch (error) {
+        console.error("❌ Error downloading sheet:", error.message);
+        throw error;
+    }
+}
+
+// Function to import CSV into database
+async function importData() {
+    try {
+        console.log("📊 Importing CSV into database...");
+        const csvStream = fs.createReadStream(FILE_PATH).pipe(csvParser());
         const results = [];
 
         await new Promise((resolve, reject) => {
             csvStream
-                .pipe(csvParser())
-                .on("data", (row) => {
-                    results.push(row);
-                })
+                .on("data", (row) => results.push(row))
                 .on("end", resolve)
                 .on("error", reject);
         });
 
-        console.log("✅ Data fetched successfully. Processing entries...");
+        console.log(`✅ Processed ${results.length} rows.`);
 
         const client = await pool.connect();
         try {
             await client.query(`
-                CREATE TABLE IF NOT EXISTS conference (
-                    delegate_id VARCHAR(255) PRIMARY KEY,
-                    name VARCHAR(255) NOT NULL,
-                    image TEXT NOT NULL
-                )
-            `);
+        CREATE TABLE IF NOT EXISTS conference (
+          delegate_id VARCHAR(255) PRIMARY KEY,
+          name VARCHAR(255) NOT NULL,
+          image TEXT NOT NULL
+        )
+      `);
 
             for (const row of results) {
                 const delegateId = row["ID"];
@@ -52,14 +71,16 @@ async function fetchAndImportData() {
                     continue;
                 }
 
-                // Check if delegate already exists
-                const checkExist = await client.query("SELECT delegate_id FROM conference WHERE delegate_id = $1", [delegateId]);
+                const checkExist = await client.query(
+                    "SELECT delegate_id FROM conference WHERE delegate_id = $1",
+                    [delegateId]
+                );
+
                 if (checkExist.rows.length > 0) {
                     console.log(`🔄 Skipping existing delegate: ${delegateId}`);
                     continue;
                 }
 
-                // Insert new delegate
                 await client.query(
                     "INSERT INTO conference (delegate_id, name, image) VALUES ($1, $2, $3)",
                     [delegateId, name, image]
@@ -74,9 +95,12 @@ async function fetchAndImportData() {
             client.release();
         }
     } catch (error) {
-        console.error("❌ Error fetching data:", error.message);
+        console.error("❌ Error importing data:", error.message);
     }
 }
 
-// Run the import
-fetchAndImportData();
+// Run the process
+(async () => {
+    await downloadSheet();
+    await importData();
+})();

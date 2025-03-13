@@ -1,18 +1,10 @@
 import express from 'express';
 import pool from './db.js';
-import session from 'express-session';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
 const router = express.Router();
-
-router.use(session({
-    secret: process.env.SESSION_SECRET || 'fallbackSecretKey', // Secure key
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: process.env.NODE_ENV === 'production' }
-}));
 
 // Admin Login
 router.post('/auth/login', (req, res) => {
