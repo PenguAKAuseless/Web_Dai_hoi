@@ -1,6 +1,6 @@
 /* Layout */
 .checkin-page {
-    background: url('background.png') no-repeat center center fixed;
+    background: url('/background.png') no-repeat center center fixed;
     background-size: cover;
     /* Ensures full-page coverage */
     width: 100vw;
@@ -37,7 +37,7 @@
 }
 
 /* Content */
-.content {
+.checkin-content {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -45,7 +45,7 @@
 }
 
 /* Left Section */
-.left-section {
+.checkin-left-section {
     width: 40%;
     text-align: center;
 }
@@ -69,7 +69,7 @@
 }
 
 /* Right Section */
-.right-section {
+.checkin-right-section {
     width: 40%;
     background-color: lightgray;
     padding: 20px;

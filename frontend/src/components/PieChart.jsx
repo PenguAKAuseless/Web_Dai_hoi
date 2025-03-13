@@ -5,6 +5,10 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const PieChart = ({ checkedIn, total }) => {
+    if (isNaN(checkedIn) || isNaN(total) || total === 0) {
+        return <div style={{ textAlign: 'center', fontSize: '18px', fontWeight: 'bold', color: 'gray' }}>No data available</div>;
+    }
+
     const maxCheckedIn = Math.min(checkedIn, 999);
     const remaining = Math.max(0, total - maxCheckedIn);
 
@@ -36,7 +40,7 @@ const PieChart = ({ checkedIn, total }) => {
     };
 
     return (
-        <div style={{ position: 'relative', width: '100%', maxWidth: '300px', height: 'auto' }}>
+        <div style={{ position: 'relative', width: '300px', height: '300px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Pie data={data} options={options} />
             <div
                 style={{

@@ -70,8 +70,8 @@ export default function CheckInPage() {
                 />
                 <button onClick={checkIn} className="checkin-btn">Check-in</button>
             </div>
-            <div className="content">
-                <div className="left-section">
+            <div className="checkin-content">
+                <div className="checkin-left-section">
                     {queue.length > 0 ? (
                         <>
                             <img
@@ -87,6 +87,20 @@ export default function CheckInPage() {
                             <p className="idle-text">Waiting for Check-in...</p>
                         </>
                     )}
+                </div>
+                <div className="checkin-right-section">
+                    <div className="queue-list">
+                        {queue.slice(1).map((delegate) => (
+                            <div key={delegate.delegate_id} className="queue-item">
+                                <img
+                                    src={delegate.image_url || "/logo-placeholder.png"}
+                                    alt="Checked-in Person"
+                                    className="profile-img"
+                                />
+                                <p className="user-name">{delegate.name} ({delegate.delegate_id})</p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>

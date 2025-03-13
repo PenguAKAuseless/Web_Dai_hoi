@@ -1,5 +1,5 @@
 .main-page {
-    background: url('background.png') no-repeat center center fixed;
+    background: url('/background.png') no-repeat center center fixed;
     background-size: cover;
     /* Ensures full-page coverage */
     width: 100vw;
@@ -37,16 +37,23 @@
     gap: 10px;
 }
 
-.content {
+.main-content {
     display: flex;
     width: 80%;
     justify-content: space-between;
     align-items: center;
 }
 
-.left-section {
+.main-left-section {
     flex: 1;
     text-align: left;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 .logo {
@@ -65,24 +72,18 @@
     margin-top: 20px;
 }
 
-.right-section {
+.main-right-section {
     flex: 1;
     text-align: right;
+    background-color: transparent;
 }
 
-.counter-title {
-    font-size: 24px;
-    font-weight: bold;
+.chart-container {
+    display: none;
+    /* Hide by default */
 }
 
-.pie-chart {
-    width: 120px;
-    height: 120px;
-    border: 2px solid black;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    margin-top: 10px;
+.chart-container.visible {
+    display: block;
+    /* Show only when needed */
 }

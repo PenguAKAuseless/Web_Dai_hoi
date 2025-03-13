@@ -87,13 +87,19 @@ export default function MainPage() {
                     <button onClick={login} className="login-btn">Login</button>
                 </div>
             )}
-            <div className="content">
-                <div className="left-section">
-                    <img src="/logo.png" alt="Class Logo" className="logo" />
+            <div className="main-content">
+                <div className="main-left-section">
+                    <div className="logo-container">
+                        <img src="/logo.png" alt="Class Logo" className="logo" />
+                    </div>
                     <img src="/Ten_Dai_hoi.png" alt="Event Title" className="ten-dai-hoi" />
                 </div>
-                <div className="right-section">
-                    <PieChart checkedIn={checkedIn} total={total} />
+                <div className="main-right-section">
+                    {total > 0 && (
+                        <div className={`chart-container ${total > 0 ? "visible" : ""}`}>
+                            <PieChart checkedIn={checkedIn} total={total} />
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
