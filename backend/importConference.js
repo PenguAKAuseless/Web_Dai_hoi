@@ -24,13 +24,13 @@ async function downloadSheet() {
 
         return new Promise((resolve, reject) => {
             writer.on("finish", () => {
-                console.log("✅ File downloaded successfully:", FILE_PATH);
+                console.log("File downloaded successfully:", FILE_PATH);
                 resolve();
             });
             writer.on("error", reject);
         });
     } catch (error) {
-        console.error("❌ Error downloading sheet:", error.message);
+        console.error("Error downloading sheet:", error.message);
         throw error;
     }
 }
@@ -38,7 +38,7 @@ async function downloadSheet() {
 // Function to import CSV into database
 async function importData() {
     try {
-        console.log("📊 Importing CSV into database...");
+        console.log("Importing CSV into database...");
         const csvStream = fs.createReadStream(FILE_PATH).pipe(csvParser());
         const results = [];
 
@@ -49,7 +49,7 @@ async function importData() {
                 .on("error", reject);
         });
 
-        console.log(`✅ Processed ${results.length} rows.`);
+        console.log(`Processed ${results.length} rows.`);
 
         const client = await pool.connect();
         try {
@@ -62,12 +62,12 @@ async function importData() {
       `);
 
             for (const row of results) {
-                const delegateId = row["ID"];
+                const delegateId = row["MSCB_MSSV"];
                 const name = row["Name"];
                 const image = row["Image"];
 
                 if (!delegateId || !name || !image) {
-                    console.log(`⚠️ Skipping invalid row: ${JSON.stringify(row)}`);
+                    console.log(`Skipping invalid row: ${JSON.stringify(row)}`);
                     continue;
                 }
 
@@ -77,7 +77,7 @@ async function importData() {
                 );
 
                 if (checkExist.rows.length > 0) {
-                    console.log(`🔄 Skipping existing delegate: ${delegateId}`);
+                    console.log(`Skipping existing delegate: ${delegateId}`);
                     continue;
                 }
 
@@ -85,17 +85,17 @@ async function importData() {
                     "INSERT INTO conference (delegate_id, name, image) VALUES ($1, $2, $3)",
                     [delegateId, name, image]
                 );
-                console.log(`✅ Added delegate: ${delegateId} - ${name}`);
+                console.log(`Added delegate: ${delegateId} - ${name}`);
             }
 
-            console.log("🎉 Import completed!");
+            console.log("Import completed!");
         } catch (err) {
-            console.error("❌ Error inserting data:", err);
+            console.error("Error inserting data:", err);
         } finally {
             client.release();
         }
     } catch (error) {
-        console.error("❌ Error importing data:", error.message);
+        console.error("Error importing data:", error.message);
     }
 }
 

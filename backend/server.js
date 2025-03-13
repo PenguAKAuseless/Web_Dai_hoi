@@ -44,16 +44,16 @@ app.use(session({
 }));
 
 // Run importConference.js on server startup
-console.log("🚀 Running importConference.js on server start...");
+console.log("Running importConference.js on server start...");
 exec("node importConference.js", (error, stdout, stderr) => {
     if (error) {
-        console.error(`❌ Error running importConference.js: ${error.message}`);
+        console.error(`Error running importConference.js: ${error.message}`);
         return;
     }
     if (stderr) {
-        console.error(`⚠️ importConference.js stderr: ${stderr}`);
+        console.error(`importConference.js stderr: ${stderr}`);
     }
-    console.log(`✅ importConference.js output: ${stdout}`);
+    console.log(`importConference.js output: ${stdout}`);
 });
 
 // Routes
@@ -61,4 +61,4 @@ app.use('/api', routes);
 
 // Start Server
 const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
