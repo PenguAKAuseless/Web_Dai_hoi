@@ -1,11 +1,13 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import './PieChart.css';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const PieChart = ({ checkedIn, total }) => {
     if (isNaN(checkedIn) || isNaN(total) || total === 0) {
+        console.log(checkedIn, total);
         return <div style={{ textAlign: 'center', fontSize: '18px', fontWeight: 'bold', color: 'gray' }}>No data available</div>;
     }
 
@@ -17,8 +19,8 @@ const PieChart = ({ checkedIn, total }) => {
         datasets: [
             {
                 data: [maxCheckedIn, remaining],
-                backgroundColor: ['#ed7d31', '#4472c4'],
-                hoverBackgroundColor: ['#f09145', '#5a86d6'],
+                backgroundColor: ['#4472c4', '#ed7d31'], 
+                hoverBackgroundColor: ['#5a86d6', '#f09145'], 
             },
         ],
     };
@@ -52,7 +54,7 @@ const PieChart = ({ checkedIn, total }) => {
                     fontWeight: 'bold',
                 }}
             >
-                {maxCheckedIn}
+                {maxCheckedIn}/{total}
             </div>
         </div>
     );

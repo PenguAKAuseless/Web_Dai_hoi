@@ -35,7 +35,7 @@ app.use(express.json());
 app.use(session({
     secret: process.env.SESSION_SECRET || 'defaultSecret',
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
         secure: process.env.NODE_ENV === "production", // Only secure cookies in production
         httpOnly: true,
