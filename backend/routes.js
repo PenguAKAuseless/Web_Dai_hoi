@@ -37,6 +37,7 @@ const isAdmin = (req, res, next) => {
 
 // Check if user is admin
 router.get('/auth/admin-status', (req, res) => {
+    console.log(req.session)
     res.json({ isAdmin: req.session.isAdmin || false });
 });
 
