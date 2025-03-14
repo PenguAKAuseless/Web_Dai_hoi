@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import session from 'express-session';
+import pgSession from 'connect-pg-simple';
+import pool from './db.js';
 import routes from './routes.js';
 import { exec } from 'child_process';
 
@@ -31,8 +33,12 @@ app.use(
 // Middleware
 app.use(express.json());
 
-// Express Session Configuration
+// PostgreSQL Session Store
 app.use(session({
+    store: new (pgSession(session))({
+        pool: pool, // Use PostgreSQL connection pool
+        tableName: 'session' // Default table name
+    }),
     secret: process.env.SESSION_SECRET || 'defaultSecret',
     resave: false,
     saveUninitialized: false,
