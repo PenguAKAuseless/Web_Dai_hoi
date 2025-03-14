@@ -11,8 +11,12 @@ router.post('/auth/login', (req, res) => {
     const { account, password } = req.body;
     if (password === process.env.ADMIN_PASS) {
         req.session.isAdmin = true;
-        req.session.save();
-        res.json({ message: 'Login successful' });
+        req.session.save(err => {
+            if (err) {
+                return res.status(500).json({ error: "Failed to save session." });
+            }
+            res.json({ message: 'Login successful' });
+        });
     } else {
         res.status(403).json({ error: 'Invalid password' });
     }
