@@ -2,8 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import session from 'express-session';
-import pgSession from 'connect-pg-simple';
-import pool from './db.js';
 import routes from './routes.js';
 import { exec } from 'child_process';
 
@@ -33,12 +31,8 @@ app.use(
 // Middleware
 app.use(express.json());
 
-// PostgreSQL Session Store
+// Express Session Configuration
 app.use(session({
-    store: new (pgSession(session))({
-        pool: pool, // Use PostgreSQL connection pool
-        tableName: 'session' // Default table name
-    }),
     secret: process.env.SESSION_SECRET || 'defaultSecret',
     resave: false,
     saveUninitialized: false,
@@ -48,6 +42,17 @@ app.use(session({
         sameSite: "Lax"
     }
 }));
+
+// Middleware to log session creation and properties
+app.use((req, res, next) => {
+    if (!req.session.isNew) {
+        console.log("Existing session:", req.session);
+    } else {
+        console.log("New session created:", req.session);
+    }
+    next();
+});
+
 
 // Run importConference.js on server startup
 console.log("Running importConference.js on server start...");
