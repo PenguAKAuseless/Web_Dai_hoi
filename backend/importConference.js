@@ -52,6 +52,7 @@ async function importData() {
         console.log(`Processed ${results.length} rows.`);
 
         const client = await pool.connect();
+        
         try {
             await client.query(`
         CREATE TABLE IF NOT EXISTS conference (
@@ -59,7 +60,8 @@ async function importData() {
           name VARCHAR(255) NOT NULL,
           image TEXT NOT NULL
         )
-      `);
+      `);   
+            await client.query('TRUNCATE TABLE conference RESTART IDENTITY;')
             await client.query('TRUNCATE TABLE attendance_log RESTART IDENTITY;')
 
             for (const row of results) {

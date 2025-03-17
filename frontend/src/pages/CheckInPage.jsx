@@ -39,7 +39,8 @@ export default function CheckInPage() {
                                 alt="Checked-in Person"
                                 className="profile-img fade-in"
                             />
-                            <p className="user-name">{displayQueue[0].name} ({displayQueue[0].delegate_id})</p>
+                            <p className="delegate-name">Họ và tên: {displayQueue[0].name}</p>
+                            <p className="delegate-id">MSCB/MSSV: {displayQueue[0].delegate_id}</p>
                         </>
                     ) : (
                         <>
