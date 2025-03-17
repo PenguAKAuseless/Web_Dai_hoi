@@ -20,12 +20,13 @@
     display: flex;
     justify-content: center;
     gap: 10px;
+    width: 100%;
 }
 
 .input-field {
     border: 2px solid gray;
     padding: 10px;
-    width: 200px;
+    width: 90%;
 }
 
 .checkin-btn {
@@ -34,19 +35,31 @@
     padding: 10px 20px;
     border: none;
     cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bolder;
 }
 
 /* Content */
 .checkin-content {
     display: flex;
+    width: 80%;
+    height: 100%;
     justify-content: space-around;
     align-items: center;
     margin-top: 30px;
 }
 
-/* Left Section */
+.checkin-left-section,
+.checkin-right-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
 .checkin-left-section {
     width: 40%;
+    height: 100%;
+    justify-content: center;
     text-align: center;
 }
 
@@ -63,30 +76,23 @@
     margin-top: 10px;
 }
 
-.idle-text {
-    font-size: 16px;
-    color: gray;
-}
-
-/* Right Section */
 .checkin-right-section {
     width: 40%;
-    background-color: lightgray;
+    height: 70%;
+    margin-bottom: -5%;
+    background-color: #F49503;
     padding: 20px;
     border-radius: 10px;
+    border: 25px solid #9dddf9;
+    align-items: flex-start;
+    justify-content: flex-start;
 }
 
-.recent-title {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.recent-list {
+.checkin-list {
     list-style: none;
     padding: 0;
 }
 
-/* Transitions */
 .fade-in {
     animation: fadeIn 0.5s ease-in-out;
 }

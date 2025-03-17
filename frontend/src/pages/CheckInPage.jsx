@@ -4,28 +4,10 @@ import "./CheckInPage.css";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function CheckInPage() {
-    const [queue, setQueue] = useState([]);
+    const [checkinList, setCheckin] = useState([]);
+    const [displayQueue, setQueue] = useState([]);
     const [id, setId] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-
-    async function checkAdmin() {
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/auth/admin-status`, {
-                method: "GET",
-                credentials: "include",
-            });
-            const data = await response.json();
-
-            if (!response.ok || !data.isAdmin) {
-                setErrorMessage("Not an admin! Redirecting...");
-                setTimeout(() => {
-                    window.location.href = "/";
-                }, 10000);
-            }
-        } catch (error) {
-            setErrorMessage("Admin check failed.");
-        }
-    }
 
     const checkIn = async () => {
         try {
@@ -40,6 +22,7 @@ export default function CheckInPage() {
             if (!res.ok) throw new Error(data.error || "Check-in failed");
 
             setQueue((prev) => [...prev, data.delegate]);
+            setCheckin((prev) => [...prev, data.delegate]);
         } catch (error) {
             setErrorMessage(error.message);
         }
@@ -47,43 +30,41 @@ export default function CheckInPage() {
 
     return (
         <div className="checkin-page">
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
-            <div className="input-section">
-                <input
-                    value={id}
-                    onChange={(e) => setId(e.target.value)}
-                    className="input-field"
-                    placeholder="Enter ID"
-                />
-                <button onClick={checkIn} className="checkin-btn">Check-in</button>
-            </div>
             <div className="checkin-content">
                 <div className="checkin-left-section">
-                    {queue.length > 0 ? (
+                    {displayQueue.length > 0 ? (
                         <>
                             <img
-                                src={queue[0].image_url || "/logo-placeholder.png"}
+                                src={displayQueue[0].image || "/logo.png"}
                                 alt="Checked-in Person"
                                 className="profile-img fade-in"
                             />
-                            <p className="user-name">{queue[0].name} ({queue[0].delegate_id})</p>
+                            <p className="user-name">{displayQueue[0].name} ({displayQueue[0].delegate_id})</p>
                         </>
                     ) : (
                         <>
-                            <img src="/logo.png" alt="Idle" className="idle-img" />
-                            <p className="idle-text">Waiting for Check-in...</p>
+                            <div className="logo-container">
+                                <img src="/logo.png" alt="Logo Đại hội đại biểu Hội sinh viên Việt Nam khoa Khoa học và Kỹ thuật Máy tính nhiệm kỳ 2025 - 2028" className="logo" />
+                            </div>
+                            <div className="name-container">
+                                <img src="/Ten_Dai_hoi.png" alt="Đại hội đại biểu Hội sinh viên Việt Nam khoa Khoa học và Kỹ thuật Máy tính nhiệm kỳ 2025 - 2028" className="ten-dai-hoi" />
+                            </div>
                         </>
                     )}
                 </div>
                 <div className="checkin-right-section">
-                    <div className="queue-list">
-                        {queue.slice(1).map((delegate) => (
-                            <div key={delegate.delegate_id} className="queue-item">
-                                <img
-                                    src={delegate.image_url || "/logo-placeholder.png"}
-                                    alt="Checked-in Person"
-                                    className="profile-img"
-                                />
+                    <div className="input-section">
+                        <input
+                            value={id}
+                            onChange={(e) => setId(e.target.value)}
+                            className="input-field"
+                            placeholder="Enter ID"
+                        />
+                        <button onClick={checkIn} className="checkin-btn">Check-in</button>
+                    </div>
+                    <div className="checkin-list">
+                        {checkinList.slice(1).map((delegate) => (
+                            <div key={delegate.delegate_id} className="list-item">
                                 <p className="user-name">{delegate.name} ({delegate.delegate_id})</p>
                             </div>
                         ))}

@@ -73,6 +73,10 @@ router.get('/conference/:id', async (req, res) => {
 router.post('/attendance/checkin', async (req, res) => {
     const { registrationId } = req.body;
     try {
+        const log = await pool.query('SELECT * FROM attendance_log where delegate_id = $1', [registrationId]);
+        if (log.rows.length > 0) {
+            throw new Error('Already checked in');
+        }
         const delegate = await pool.query('SELECT * FROM conference WHERE delegate_id = $1', [registrationId]);
         if (delegate.rows.length === 0) {
             return res.status(404).json({ error: 'Delegate not found' });
