@@ -7,7 +7,7 @@ export default function App() {
         <div>
             <Routes>
                 <Route path="/" element={<MainPage />} />
-                <Route path="/check-in" element={<CheckInPage />} />
+                <Route path="/hidden-checkin-page" element={<CheckInPage />} />
             </Routes>
         </div>
     );

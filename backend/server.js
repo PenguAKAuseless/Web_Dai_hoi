@@ -43,17 +43,6 @@ app.use(session({
     }
 }));
 
-// Middleware to log session creation and properties
-app.use((req, res, next) => {
-    if (!req.session.isNew) {
-        console.log("Existing session:", req.session);
-    } else {
-        console.log("New session created:", req.session);
-    }
-    next();
-});
-
-
 // Run importConference.js on server startup
 console.log("Running importConference.js on server start...");
 exec("node importConference.js", (error, stdout, stderr) => {

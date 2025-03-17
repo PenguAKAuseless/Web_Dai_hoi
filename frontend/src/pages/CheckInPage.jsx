@@ -27,19 +27,6 @@ export default function CheckInPage() {
         }
     }
 
-    useEffect(() => {
-        checkAdmin();
-    }, []);
-
-    useEffect(() => {
-        if (queue.length > 0) {
-            const timer = setTimeout(() => {
-                setQueue((prev) => prev.slice(1));
-            }, 10000);
-            return () => clearTimeout(timer);
-        }
-    }, [queue]);
-
     const checkIn = async () => {
         try {
             const res = await fetch(`${API_BASE_URL}/api/attendance/checkin`, {

@@ -30,25 +30,10 @@ router.post('/auth/logout', (req, res) => {
     });
 });
 
-// Middleware to check if admin is logged in
-const isAdmin = (req, res, next) => {
-    if (req.session.isAdmin) {
-        next();
-    } else {
-        res.status(403).json({ error: 'Unauthorized' });
-    }
-};
-
-// Check if user is admin
-router.get('/auth/admin-status', (req, res) => {
-    console.log(req.session)
-    res.json({ isAdmin: req.session.isAdmin || false });
-});
-
 // Attendance stats (public)
 router.get('/attendance/stats', async (req, res) => {
     try {
-        const result = await pool.query('SELECT COUNT(*) as total FROM conference');
+        const result = await pool.query('SELECT COUNT(*) as total FROM attendance_log');
         res.json({ total: parseInt(result.rows[0].total) });
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -85,7 +70,7 @@ router.get('/conference/:id', async (req, res) => {
 });
 
 // Check-in attendance (admin only)
-router.post('/attendance/checkin', isAdmin, async (req, res) => {
+router.post('/attendance/checkin', async (req, res) => {
     const { registrationId } = req.body;
     try {
         const delegate = await pool.query('SELECT * FROM conference WHERE delegate_id = $1', [registrationId]);
