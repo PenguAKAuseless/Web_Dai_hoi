@@ -60,6 +60,7 @@ async function importData() {
           image TEXT NOT NULL
         )
       `);
+            await client.query('TRUNCATE TABLE attendance_log RESTART IDENTITY;')
 
             for (const row of results) {
                 const delegateId = row["MSCB_MSSV"];
