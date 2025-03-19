@@ -8,7 +8,7 @@ import { exec } from 'child_process';
 dotenv.config();
 const app = express();
 
-// Allowed CORS Origins (Only Frontend URLs)
+// Allowed CORS Origins (Frontend URLs)
 const allowedOrigins = [
     "http://localhost:5173",
     "https://web-dai-hoi.web.app"
@@ -42,19 +42,6 @@ app.use(session({
         sameSite: "Lax"
     }
 }));
-
-// Run importConference.js on server startup
-console.log("Running importConference.js on server start...");
-exec("node importConference.js", (error, stdout, stderr) => {
-    if (error) {
-        console.error(`Error running importConference.js: ${error.message}`);
-        return;
-    }
-    if (stderr) {
-        console.error(`importConference.js stderr: ${stderr}`);
-    }
-    console.log(`importConference.js output: ${stdout}`);
-});
 
 // Routes
 app.use('/api', routes);

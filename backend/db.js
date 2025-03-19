@@ -10,17 +10,22 @@ const __filename = fileURLToPath(import.meta.url);
 // Explicitly specify the path to the .env file
 dotenv.config();
 
-const pool = new Pool({
-  // Uncomment this if you host locally
-  // user: process.env.DB_USER,
-  // host: process.env.DB_HOST,
-  // database: process.env.DB_NAME,
-  // password: process.env.DB_PASS,
-  // port: parseInt(process.env.DB_PORT, 10), // Convert port to number
-  // Uncomment this if you host on Render
-  connectionString: process.env.DATABASE_URL || process.env.DB_EXTERNAL_URL,
-  ssl: { rejectUnauthorized: false } // Required for Render
-});
+const isLocal = process.env.LOCAL;
+
+const pool = new Pool(
+  isLocal
+    ? {
+      user: process.env.DB_USER,
+      host: process.env.DB_HOST,
+      database: process.env.DB_NAME,
+      password: process.env.DB_PASS,
+      port: parseInt(process.env.DB_PORT, 10), 
+    }
+    : {
+      connectionString: process.env.DATABASE_URL || process.env.DB_EXTERNAL_URL,
+      ssl: { rejectUnauthorized: false }
+    }
+);
 
 // Ensure table exists
 async function initDB() {

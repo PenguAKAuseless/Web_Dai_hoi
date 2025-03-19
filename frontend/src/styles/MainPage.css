@@ -41,7 +41,8 @@
 
 .logo {
     display: block;
-    width: 100%;
+    width: 70%;
+    height: auto;
     align-items: center;
     justify-content: center;
 }
@@ -50,7 +51,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 60%;
+    width: 100%;
 }
 
 .ten-dai-hoi {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import PieChart from '../components/PieChart';
-import './MainPage.css';
+import PieChart from './PieChart';
+import '../styles/MainPage.css';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -31,10 +31,10 @@ export default function MainPage() {
             <div className="main-content">
                 <div className="main-left-section">
                     <div className="logo-container">
-                        <img src="/logo.png" alt="Logo Đại hội đại biểu Hội sinh viên Việt Nam khoa Khoa học và Kỹ thuật Máy tính nhiệm kỳ 2025 - 2028" className="logo"/>
+                        <img src="/logo.png" alt="Logo Đại hội đại biểu Hội sinh viên Việt Nam khoa Khoa học và Kỹ thuật Máy tính nhiệm kỳ 2025 - 2028" className="logo" />
                     </div>
                     <div className="name-container">
-                        <img src="/Ten_Dai_hoi.png" alt="Đại hội đại biểu Hội sinh viên Việt Nam khoa Khoa học và Kỹ thuật Máy tính nhiệm kỳ 2025 - 2028" className="ten-dai-hoi"/>
+                        <img src="/Ten_Dai_hoi.png" alt="Đại hội đại biểu Hội sinh viên Việt Nam khoa Khoa học và Kỹ thuật Máy tính nhiệm kỳ 2025 - 2028" className="ten-dai-hoi" />
                     </div>
                 </div>
                 <div className="main-right-section">

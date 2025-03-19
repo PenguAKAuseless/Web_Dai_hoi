@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import "./CheckInPage.css";
+import "../styles/CheckInPage.css";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+console.log(import.meta.env.VITE_API_BASE_URL);
 
 export default function CheckInPage() {
     const [checkinList, setCheckin] = useState([]);

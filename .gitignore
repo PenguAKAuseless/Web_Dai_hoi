@@ -5,3 +5,4 @@ frontend/dist/
 dataconnect/
 dataconnect-generated/
 render.yaml
+backend/conference_data.csv

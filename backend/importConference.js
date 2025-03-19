@@ -61,8 +61,7 @@ async function importData() {
           image TEXT NOT NULL
         )
       `);   
-            await client.query('TRUNCATE TABLE conference RESTART IDENTITY;')
-            await client.query('TRUNCATE TABLE attendance_log RESTART IDENTITY;')
+            await client.query('TRUNCATE TABLE conference CASCADE;');
 
             for (const row of results) {
                 const delegateId = row["MSCB_MSSV"];
