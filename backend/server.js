@@ -3,13 +3,14 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import session from 'express-session';
 import { createServer } from 'http';
-import initializeConferenceData from './importConference.js'; // Import the new function
+import initializeConferenceData from './importConference.js';
 import setupWebSocket from './wsroutes.js';
+import routes from './routes.js';
 
 dotenv.config();
 const app = express();
 
-// Allowed CORS Origins (Frontend URLs)
+// Allowed CORS
 const allowedOrigins = [
     "http://localhost:5173",
     "https://web-dai-hoi.web.app"
@@ -43,6 +44,9 @@ app.use(session({
         sameSite: "Lax"
     }
 }));
+
+// Routes
+app.use('/api', routes);
 
 // Create HTTP server
 const server = createServer(app);
