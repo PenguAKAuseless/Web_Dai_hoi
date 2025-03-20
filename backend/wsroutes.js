@@ -9,6 +9,8 @@ const setupWebSocket = (server) => {
 
         ws.on('message', async (message) => {
             try {
+                const { type, payload } = JSON.parse(message);
+            
                 switch (type) {
                     case 'GET_ATTENDANCE_STATS':
                         const statsResult = await pool.query('SELECT COUNT(*) as total FROM attendance_log');
