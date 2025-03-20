@@ -51,8 +51,8 @@ async function importData() {
         try {
             await client.query(`
                 CREATE TABLE IF NOT EXISTS conference (
-                delegate_id VARCHAR(255) PRIMARY KEY,
-                name VARCHAR(255) NOT NULL,
+                delegate_id VARCHAR(20) PRIMARY KEY,
+                name TEXT NOT NULL,
                 image TEXT NOT NULL
                 )
             `);
@@ -86,7 +86,6 @@ async function importData() {
                 console.log(`Added delegate: ${delegateId} - ${name}`);
             }
             console.log("Import completed!");
-            console.log(await client.query("SELECT * FROM conference"))
         } catch (err) {
             console.error("Error inserting data:", err);
         } finally {
