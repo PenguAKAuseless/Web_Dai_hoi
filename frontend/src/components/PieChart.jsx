@@ -14,8 +14,8 @@ const PieChart = ({ checkedIn = 0, notCheckedIn = 0 }) => {
         datasets: [
             {
                 data: [checkedIn, notCheckedIn],
-                backgroundColor: ["#ed7d31", "#bfbfbf"],
-                hoverBackgroundColor: ["#f09145", "#d0d0d0"],
+                backgroundColor: ["#4472c4", "#ed7d31"],
+                hoverBackgroundColor: ["#5a8ae5", "#f5a35b"],
             },
         ],
     };
@@ -26,15 +26,16 @@ const PieChart = ({ checkedIn = 0, notCheckedIn = 0 }) => {
             tooltip: { enabled: true },
             legend: { display: false },
             datalabels: {
-                color: "#fff",  // Change to "#000" if background is light
+                color: "#000",  // Change to "#000" if background is light
                 font: {
+                    family: 'Montserrat',
                     weight: "bold",
-                    size: 14,
+                    size: 40,
                 },
                 formatter: (value) => value > 0 ? value : "",
             },
         },
-        cutout: "60%",
+        cutout: "50%",
     };
 
     return (
@@ -44,12 +45,12 @@ const PieChart = ({ checkedIn = 0, notCheckedIn = 0 }) => {
             </div>
             <div className="legend-container">
                 <div className="legend-item">
-                    <span className="legend-color" style={{ backgroundColor: "#ed7d31" }}></span>
-                    <span>Checked In ({checkedIn})</span>
+                    <div className="legend-box" style={{ backgroundColor: "#4472c4" }}></div>
+                    Checked In
                 </div>
                 <div className="legend-item">
-                    <span className="legend-color" style={{ backgroundColor: "#bfbfbf" }}></span>
-                    <span>Not Checked In ({notCheckedIn})</span>
+                    <div className="legend-box" style={{ backgroundColor: "#f5a35b" }}></div>
+                    Not Checked In
                 </div>
             </div>
         </div>

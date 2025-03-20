@@ -13,20 +13,25 @@
 .legend-container {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: start;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .legend-item {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
+    gap: 8px;
+    /* Space between box and text */
 }
 
-.legend-color {
-    width: 20px;
+.legend-box {
+    width: 40px;
+    /* Set a fixed width */
     height: 20px;
-    border-radius: 4px;
+    /* Set a fixed height */
+    border-radius: 2px;
+    /* Optional: Rounded corners */
+    display: inline-block;
+    flex-shrink: 0;
 }
