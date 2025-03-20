@@ -36,6 +36,7 @@ const setupWebSocket = (server) => {
                             ws.send(JSON.stringify({ type: 'ERROR', payload: { message: 'Already checked in' } }));
                             break;
                         }
+                        console.log(await clientQuery.query("SELECT * FROM conference;"))
                         const delegateCheckResult = await clientQuery.query('SELECT * FROM conference WHERE delegate_id = $1', [registrationId]);
                         console.log(delegateCheckResult);
                         if (delegateCheckResult.rows.length === 0) {
