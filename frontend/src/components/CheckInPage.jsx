@@ -22,7 +22,7 @@ export default function CheckInPage() {
         ws.onmessage = (event) => {
             const { type, payload } = JSON.parse(event.data);
             console.log(type, payload);
-            
+
             try {
                 switch (type) {
                     case 'ATTENDANCE_LOGS':
@@ -74,59 +74,87 @@ export default function CheckInPage() {
 
     return (
         <div className="checkin-page">
+            <div className="checkin-text-container">
+                <img src="./check-in-text.png" className="checkin-text" />
+            </div>
             <div className="checkin-content">
                 <div className="checkin-left-section">
                     {displayQueue.length > 0 ? (
-                        <>
+                        <div className="profile-container">
+                            <div className="welcome-container">
+                                <p className="welcome">Chào mừng</p>
+                            </div>
                             <img
                                 src={displayQueue[0].image}
                                 alt="Checked-in Person"
                                 className="profile-img fade-in"
                             />
-                            <p className="delegate-name">Họ và tên: {displayQueue[0].name}</p>
-                            <p className="delegate-id">MSCB/MSSV: {displayQueue[0].delegate_id}</p>
-                        </>
+                            <img
+                                src="./frame.png"
+                                alt="Frame"
+                                className="frame-overlay"
+                            />
+                            <div class="profile-info">
+                                <p class="delegate-id">MSSV: {displayQueue[0].delegate_id} </p>
+                                <p class="delegate-name">{displayQueue[0].name}</p>
+                            </div>
+                        </div>
+
                     ) : (
                         <>
                             <div className="checkin-logo-container">
-                                <img src="/logo.png" alt="Logo Đại hội đại biểu Hội sinh viên Việt Nam khoa Khoa học và Kỹ thuật Máy tính nhiệm kỳ 2025 - 2028" className="checkin-logo" />
+                                <img src="/logo.png" alt="Logo" className="checkin-logo" />
                             </div>
                             <div className="name-container">
-                                <img src="/Ten_Dai_hoi.png" alt="Đại hội đại biểu Hội sinh viên Việt Nam khoa Khoa học và Kỹ thuật Máy tính nhiệm kỳ 2025 - 2028" className="ten-dai-hoi" />
+                                <img src="/Ten_Dai_hoi.png" alt="Đại hội đại biểu" className="ten-dai-hoi" />
                             </div>
                         </>
                     )}
                 </div>
                 <div className="checkin-right-section">
-                    <div className="input-section">
-                        <input
-                            value={id}
-                            onChange={(e) => setId(e.target.value)}
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter") {
+                    <div className="checkin-bulletin">
+
+                        <div className="input-section">
+                            <input
+                                value={id}
+                                onChange={(e) => setId(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                        checkIn();
+                                        setId("");
+                                    }
+                                }}
+                                className="input-field"
+                                placeholder="Nhập ID..."
+                            />
+                            <button
+                                onClick={() => {
                                     checkIn();
                                     setId("");
-                                }
-                            }}
-                            className="input-field"
-                            placeholder="Enter ID"
-                        />
-                        <button
-                            onClick={() => {
-                                checkIn();
-                                setId("");
-                            }}
-                            className="checkin-btn"
-                        >
-                            Check-in
-                        </button>
-                    </div>
-                    <div className="checkin-list">
-                        {checkinList.map((delegate) => (
-                            <div key={delegate.delegate_id} className="list-item">
-                                <p className="user-name">{delegate.delegate_id} {delegate.name} </p>
-                            </div>
-                        ))}
+                                }}
+                                className="checkin-btn"
+                            >
+                                ▶
+                            </button>
+                        </div>
+                        <div className="checkin-list">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th className="th-name">Họ và tên</th>
+                                        <th className="th-id">MSSV</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {checkinList.map((delegate) => (
+                                        <tr key={delegate.delegate_id}>
+                                            <td className="td-name">{delegate.name}</td>
+                                            <td className="td-id">{delegate.delegate_id}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
