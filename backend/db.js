@@ -1,11 +1,11 @@
 import pkg from 'pg';
 const { Pool } = pkg;
 import dotenv from 'dotenv';
-import { fileURLToPath } from 'url';
 
 dotenv.config();
 
 const isLocal = process.env.LOCAL;
+console.log(isLocal);
 
 // Local pool and production pool handle
 const pool = new Pool(
