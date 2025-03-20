@@ -86,9 +86,6 @@ async function importData() {
                 console.log(`Added delegate: ${delegateId} - ${name}`);
             }
             console.log("Import completed!");
-            console.log(await client.query("SELECT * FROM conference WHERE delegate_id = '2312153'"));
-            console.log(await client.query("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';"));
-            console.log(await client.query("SELECT oid, relname FROM pg_class WHERE relname = 'conference';"));
         } catch (err) {
             console.error("Error inserting data:", err);
         } finally {
