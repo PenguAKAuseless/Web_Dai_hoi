@@ -4,18 +4,14 @@ import pool from "./db.js";
 import csvParser from "csv-parser";
 import { Readable } from "stream";
 
-// Google Sheets CSV URL (Replace `gid` if using a different sheet)
-const SHEET_URL =
-    process.env.GOOGLE_SHEETS_CSV_URL ||
-    "https://docs.google.com/spreadsheets/d/1WpizSAh5iUkjF32k8KvMVMC4Qfie5lPt/gviz/tq?tqx=out:csv&gid=286016700";
+const SHEET_URL = process.env.GOOGLE_SHEETS_CSV_URL;
 
 // Local file path
 const FILE_PATH = "./conference_data.csv";
 
-// Function to download and save CSV
 async function downloadSheet() {
     try {
-        console.log("📥 Downloading Google Sheet...");
+        console.log("Downloading Google Sheet...");
         const response = await axios.get(SHEET_URL, { responseType: "stream" });
 
         // Save CSV file locally

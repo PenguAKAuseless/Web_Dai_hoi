@@ -2,8 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import session from 'express-session';
-import routes from './routes.js';
-import { exec } from 'child_process';
+import { createServer } from 'http';
+import setupWebSocket from './wsroutes.js';
 
 dotenv.config();
 const app = express();
@@ -43,9 +43,12 @@ app.use(session({
     }
 }));
 
-// Routes
-app.use('/api', routes);
+// Create HTTP server
+const server = createServer(app);
+
+// Setup WebSocket server
+setupWebSocket(server);
 
 // Start Server
 const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

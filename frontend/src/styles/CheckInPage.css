@@ -15,20 +15,6 @@
     overflow: hidden;
 }
 
-.input-section {
-    margin: 20px auto;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-}
-
-.input-field {
-    border: 2px solid gray;
-    padding: 10px;
-    width: 90%;
-}
-
 .checkin-btn {
     background-color: green;
     color: white;
@@ -57,7 +43,7 @@
 }
 
 .checkin-left-section {
-    width: 40%;
+    width: 45%;
     height: 100%;
     justify-content: center;
     text-align: center;
@@ -68,6 +54,12 @@
     width: 120px;
     height: 120px;
     border-radius: 50%;
+    object-fit: cover;
+    /* Ensures the image is trimmed to fit the square */
+    object-position: top;
+    /* Aligns the image to the top */
+    margin: 0 auto;
+    /* Centers the image horizontally */
 }
 
 .user-name {
@@ -76,8 +68,25 @@
     margin-top: 10px;
 }
 
+.checkin-logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 30%;
+}
+
+.checkin-logo {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    align-items: center;
+    justify-content: center;
+}
+
 .checkin-right-section {
-    width: 40%;
+    width: 50%;
     height: 70%;
     margin-bottom: -5%;
     background-color: #F49503;
@@ -86,11 +95,47 @@
     border: 25px solid #9dddf9;
     align-items: flex-start;
     justify-content: flex-start;
+    overflow: hidden;
+    /* Prevent overflow */
 }
 
 .checkin-list {
     list-style: none;
     padding: 0;
+    margin: 0;
+    width: 100%;
+    height: calc(100% - 60px);
+    /* Adjust height to fit within the container */
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+}
+
+.list-item {
+    padding: 5px 0;
+}
+
+.input-section {
+    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.input-field {
+    flex: 1;
+    padding: 10px;
+    margin-right: 10px;
+    border: 2px solid gray;
+}
+
+.checkin-btn {
+    background-color: green;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bolder;
 }
 
 .fade-in {

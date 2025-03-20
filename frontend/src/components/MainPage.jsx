@@ -2,28 +2,37 @@ import { useEffect, useState } from 'react';
 import PieChart from './PieChart';
 import '../styles/MainPage.css';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const WS_BASE_URL = import.meta.env.VITE_WS_BASE_URL; // WebSocket Server URL
 
 export default function MainPage() {
     const [checkedIn, setCheckedIn] = useState(0);
     const [total, setTotal] = useState(104);
 
-    const fetchCheckedInCount = async () => {
-        try {
-            const res = await fetch(`${API_BASE_URL}/api/attendance/stats`);
-            const stats = await res.json();
-            if (!isNaN(stats.checkedIn)) {
-                setCheckedIn(stats.checkedIn);
-            }
-        } catch (error) {
-            console.error("Error fetching checked-in count:", error);
-        }
-    };
-
     useEffect(() => {
-        fetchCheckedInCount();
-        const interval = setInterval(fetchCheckedInCount, 5000);
-        return () => clearInterval(interval);
+        const ws = new WebSocket(WS_BASE_URL);
+
+        ws.onopen = () => {
+            console.log("WebSocket connected");
+            ws.send(JSON.stringify({ type: 'GET_ATTENDANCE_STATS' })); // Request initial stats
+        };
+
+        ws.onmessage = (event) => {
+            try {
+                const message = JSON.parse(event.data);
+                if (message.type === 'ATTENDANCE_STATS') {
+                    setCheckedIn(message.payload.total);
+                } else if (message.type === 'NEW_CHECKIN') {
+                    setCheckedIn((prev) => prev + 1); // Increment count on new check-in
+                }
+            } catch (error) {
+                console.error("Error processing WebSocket message:", error);
+            }
+        };
+
+        ws.onerror = (error) => console.error("WebSocket error:", error);
+        ws.onclose = () => console.log("WebSocket disconnected");
+
+        return () => ws.close(); // Cleanup WebSocket connection on unmount
     }, []);
 
     return (

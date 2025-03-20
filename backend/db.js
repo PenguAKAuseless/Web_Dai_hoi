@@ -1,17 +1,13 @@
 import pkg from 'pg';
 const { Pool } = pkg;
 import dotenv from 'dotenv';
-import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Convert import.meta.url to a file path
-const __filename = fileURLToPath(import.meta.url);
-
-// Explicitly specify the path to the .env file
 dotenv.config();
 
 const isLocal = process.env.LOCAL;
 
+// Local pool and production pool handle
 const pool = new Pool(
   isLocal
     ? {
@@ -27,7 +23,7 @@ const pool = new Pool(
     }
 );
 
-// Ensure table exists
+// Creates tables if they don't exist
 async function initDB() {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS conference (
