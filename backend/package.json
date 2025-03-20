@@ -16,6 +16,6 @@
     "ws": "^8.13.0"
   },
   "scripts": {
-    "start": "node db.js && node importConference.js && node server.js"
+    "start": "node db.js && node server.js"
   }
 }
