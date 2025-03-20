@@ -34,8 +34,8 @@ const setupWebSocket = (server) => {
                             ws.send(JSON.stringify({ type: 'ERROR', payload: { message: 'Already checked in' } }));
                             break;
                         }
-                        console.log(registrationId);
-                        const delegateCheckResult = await pool.query('SELECT * FROM conference WHERE delegate_id::TEXT = $1', [registrationId]);
+                        console.log(('SELECT * FROM conference WHERE delegate_id = $1', [registrationId]) == "SELECT * FROM conference WHERE delegate_id = '2312153'");
+                        const delegateCheckResult = await pool.query('SELECT * FROM conference WHERE delegate_id = $1', [registrationId]);
                         console.log(delegateCheckResult);
                         if (delegateCheckResult.rows.length === 0) {
                             ws.send(JSON.stringify({ type: 'ERROR', payload: { message: 'Delegate not found' } }));
