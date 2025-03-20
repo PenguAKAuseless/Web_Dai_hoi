@@ -1,8 +1,6 @@
 import { WebSocketServer } from 'ws';
 import pool from './db.js';
 
-const clientQuery = await pool.connect();
-
 const setupWebSocket = (server) => {
     const wss = new WebSocketServer({ server });
 
@@ -15,12 +13,12 @@ const setupWebSocket = (server) => {
             
                 switch (type) {
                     case 'GET_ATTENDANCE_STATS':
-                        const statsResult = await clientQuery.query('SELECT COUNT(*) as total FROM attendance_log');
+                        const statsResult = await pool.query('SELECT COUNT(*) as total FROM attendance_log');
                         ws.send(JSON.stringify({ type: 'ATTENDANCE_STATS', payload: { total: parseInt(statsResult.rows[0].total) } }));
                         break;
 
                     case 'GET_ATTENDANCE_LOGS':
-                        const logsResult = await clientQuery.query(`
+                        const logsResult = await pool.query(`
                             SELECT attendance_log.*, conference.name, conference.image
                             FROM attendance_log
                             JOIN conference ON attendance_log.delegate_id = conference.delegate_id
@@ -31,20 +29,19 @@ const setupWebSocket = (server) => {
 
                     case 'CHECKIN_ATTENDANCE':
                         const { registrationId } = payload;
-                        const logResult = await clientQuery.query('SELECT * FROM attendance_log WHERE delegate_id = $1', [registrationId]);
+                        const logResult = await pool.query('SELECT * FROM attendance_log WHERE delegate_id = $1', [registrationId]);
                         if (logResult.rows.length > 0) {
                             ws.send(JSON.stringify({ type: 'ERROR', payload: { message: 'Already checked in' } }));
                             break;
                         }
-                        console.log(await clientQuery.query("SELECT * FROM conference;"))
-                        const delegateCheckResult = await clientQuery.query('SELECT * FROM conference WHERE delegate_id = $1', [registrationId]);
+                        const delegateCheckResult = await pool.query('SELECT * FROM conference WHERE delegate_id = $1', [registrationId]);
                         console.log(delegateCheckResult);
                         if (delegateCheckResult.rows.length === 0) {
                             ws.send(JSON.stringify({ type: 'ERROR', payload: { message: 'Delegate not found' } }));
                             break;
                         }
                         const newCheckin = { delegate: delegateCheckResult.rows[0] };
-                        await clientQuery.query(
+                        await pool.query(
                             'INSERT INTO attendance_log (delegate_id, timestamp) VALUES ($1, NOW())',
                             [registrationId]
                         );

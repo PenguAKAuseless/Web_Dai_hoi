@@ -46,10 +46,8 @@ async function importData() {
 
         console.log(`Processed ${results.length} rows.`);
 
-        const client = await pool.connect();
-
         try {
-            await client.query(`
+            await pool.query(`
                 CREATE TABLE IF NOT EXISTS conference (
                 delegate_id VARCHAR(20) PRIMARY KEY,
                 name TEXT NOT NULL,
@@ -57,7 +55,7 @@ async function importData() {
                 )
             `);
 
-            await client.query('TRUNCATE TABLE conference CASCADE;');
+            await pool.query('TRUNCATE TABLE conference CASCADE;');
 
             for (const row of results) {
                 const delegateId = row["MSCB_MSSV"];
@@ -69,7 +67,7 @@ async function importData() {
                     continue;
                 }
 
-                const checkExist = await client.query(
+                const checkExist = await pool.query(
                     "SELECT delegate_id FROM conference WHERE delegate_id = $1",
                     [delegateId]
                 );
@@ -79,7 +77,7 @@ async function importData() {
                     continue;
                 }
 
-                await client.query(
+                await pool.query(
                     "INSERT INTO conference (delegate_id, name, image) VALUES ($1, $2, $3)",
                     [delegateId, name, image]
                 );
@@ -88,8 +86,6 @@ async function importData() {
             console.log("Import completed!");
         } catch (err) {
             console.error("Error inserting data:", err);
-        } finally {
-            client.release();
         }
     } catch (error) {
         console.error("Error importing data:", error.message);
