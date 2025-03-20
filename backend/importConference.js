@@ -92,8 +92,9 @@ async function importData() {
     }
 }
 
-// Run the process
-(async () => {
+const initializeConferenceData = async () => {
     await downloadSheet();
     await importData();
-})();
+};
+
+export default initializeConferenceData;

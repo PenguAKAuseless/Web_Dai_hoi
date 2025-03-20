@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import session from 'express-session';
 import { createServer } from 'http';
+import initializeConferenceData from './importConference.js'; // Import the new function
 import setupWebSocket from './wsroutes.js';
 
 dotenv.config();
@@ -46,9 +47,13 @@ app.use(session({
 // Create HTTP server
 const server = createServer(app);
 
-// Setup WebSocket server
-setupWebSocket(server);
+(async () => {
+    await initializeConferenceData(); // Ensure conference data is loaded before WebSocket starts
 
-// Start Server
-const PORT = process.env.PORT || 8000;
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    // Setup WebSocket server
+    setupWebSocket(server);
+
+    // Start Server
+    const PORT = process.env.PORT || 8000;
+    server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+})();
