@@ -4,8 +4,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const isLocal = process.env.LOCAL;
-console.log(isLocal);
+const isLocal = process.env.LOCAL == "true";
 
 // Local pool and production pool handle
 const pool = new Pool(

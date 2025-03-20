@@ -2,7 +2,6 @@ import axios from "axios";
 import fs from "fs";
 import pool from "./db.js";
 import csvParser from "csv-parser";
-import { Readable } from "stream";
 
 const SHEET_URL = process.env.GOOGLE_SHEETS_CSV_URL;
 
