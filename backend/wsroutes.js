@@ -29,6 +29,7 @@ const setupWebSocket = (server) => {
 
                     case 'CHECKIN_ATTENDANCE':
                         const { registrationId } = payload;
+                        console.log(payload);
                         const logResult = await pool.query('SELECT * FROM attendance_log where delegate_id = $1', [registrationId]);
                         if (logResult.rows.length > 0) {
                             ws.send(JSON.stringify({ type: 'ERROR', payload: { message: 'Already checked in' } }));
