@@ -29,12 +29,13 @@ const setupWebSocket = (server) => {
 
                     case 'CHECKIN_ATTENDANCE':
                         const { registrationId } = payload;
-                        const logResult = await pool.query("SELECT * FROM attendance_log WHERE delegate_id = '$1'", [registrationId]);
+                        const logResult = await pool.query('SELECT * FROM attendance_log WHERE delegate_id = $1', [registrationId]);
                         if (logResult.rows.length > 0) {
                             ws.send(JSON.stringify({ type: 'ERROR', payload: { message: 'Already checked in' } }));
                             break;
                         }
-                        const delegateCheckResult = await pool.query("SELECT * FROM conference WHERE delegate_id = '$1'", [registrationId]);
+                        const delegateCheckResult = await pool.query('SELECT * FROM conference WHERE delegate_id = $1', [registrationId]);
+                        console.log(delegateCheckResult)
                         if (delegateCheckResult.rows.length === 0) {
                             ws.send(JSON.stringify({ type: 'ERROR', payload: { message: 'Delegate not found' } }));
                             break;
