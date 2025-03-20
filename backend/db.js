@@ -23,9 +23,10 @@ const pool = new Pool(
     }
 );
 
-// Creates tables if they don't exist
+// Reset all tables
 async function initDB() {
   await pool.query(`
+    DROP TABLE IF EXISTS conference, attendance_log;
     CREATE TABLE IF NOT EXISTS conference (
       delegate_id VARCHAR(20) PRIMARY KEY,
       name TEXT NOT NULL,
