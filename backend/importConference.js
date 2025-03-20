@@ -86,6 +86,8 @@ async function importData() {
                 console.log(`Added delegate: ${delegateId} - ${name}`);
             }
             console.log("Import completed!");
+            const id = '2312153';
+            console.log("SELECT * FROM conference WHERE delegate_id = $1", [id]);
         } catch (err) {
             console.error("Error inserting data:", err);
         } finally {

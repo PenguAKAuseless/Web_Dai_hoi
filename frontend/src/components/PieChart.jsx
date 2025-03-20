@@ -1,26 +1,21 @@
-import React from 'react';
-import { Pie } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import '../styles/PieChart.css';
+import React from "react";
+import { Pie } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
+import ChartDataLabels from "chartjs-plugin-datalabels";
+import "../styles/PieChart.css";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, ChartDataLabels);
 
-const PieChart = ({ checkedIn, total }) => {
-    if (isNaN(checkedIn) || isNaN(total) || total === 0) {
-        console.log(checkedIn, total);
-        return <div style={{ textAlign: 'center', fontSize: '18px', fontWeight: 'bold', color: 'gray' }}>No data available</div>;
-    }
-
-    const maxCheckedIn = Math.min(checkedIn, 999);
-    const remaining = Math.max(0, total - maxCheckedIn);
+const PieChart = ({ checkedIn = 0, notCheckedIn = 0 }) => {
+    console.log("Checked In:", checkedIn, "Not Checked In:", notCheckedIn);
 
     const data = {
-        labels: ['Checked In', 'Not Checked In'],
+        labels: ["Checked In", "Not Checked In"],
         datasets: [
             {
-                data: [maxCheckedIn, remaining],
-                backgroundColor: ['#4472c4', '#ed7d31'], 
-                hoverBackgroundColor: ['#5a86d6', '#f09145'], 
+                data: [checkedIn, notCheckedIn],
+                backgroundColor: ["#ed7d31", "#bfbfbf"],
+                hoverBackgroundColor: ["#f09145", "#d0d0d0"],
             },
         ],
     };
@@ -28,33 +23,34 @@ const PieChart = ({ checkedIn, total }) => {
     const options = {
         responsive: true,
         plugins: {
-            tooltip: {
-                enabled: true,
-                callbacks: {
-                    label: (tooltipItem) => `${tooltipItem.raw} Delegates`
-                }
-            },
-            legend: {
-                display: false,
+            tooltip: { enabled: true },
+            legend: { display: false },
+            datalabels: {
+                color: "#fff",  // Change to "#000" if background is light
+                font: {
+                    weight: "bold",
+                    size: 14,
+                },
+                formatter: (value) => value > 0 ? value : "",
             },
         },
-        cutout: '70%',
+        cutout: "60%",
     };
 
     return (
-        <div style={{ position: 'relative', width: '300px', height: '300px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Pie data={data} options={options} />
-            <div
-                style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    fontSize: '24px',
-                    fontWeight: 'bold',
-                }}
-            >
-                {maxCheckedIn}/{total}
+        <div className="chart-wrapper">
+            <div className="chart-container">
+                <Pie data={data} options={options} />
+            </div>
+            <div className="legend-container">
+                <div className="legend-item">
+                    <span className="legend-color" style={{ backgroundColor: "#ed7d31" }}></span>
+                    <span>Checked In ({checkedIn})</span>
+                </div>
+                <div className="legend-item">
+                    <span className="legend-color" style={{ backgroundColor: "#bfbfbf" }}></span>
+                    <span>Not Checked In ({notCheckedIn})</span>
+                </div>
             </div>
         </div>
     );

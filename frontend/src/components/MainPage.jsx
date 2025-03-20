@@ -49,7 +49,7 @@ export default function MainPage() {
                 <div className="main-right-section">
                     {total > 0 && (
                         <div className={`chart-container ${total > 0 ? "visible" : ""}`}>
-                            <PieChart checkedIn={checkedIn} total={total} />
+                            <PieChart checkedIn={checkedIn} notCheckedIn={total - checkedIn} />
                         </div>
                     )}
                 </div>
