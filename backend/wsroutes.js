@@ -1,5 +1,7 @@
 import { WebSocketServer } from 'ws';
-import pool from './db.js';
+import pool from "./db.js";
+
+console.log(await pool.query("SELECT * FROM conference;"))
 
 const setupWebSocket = (server) => {
     const wss = new WebSocketServer({ server });
@@ -34,7 +36,6 @@ const setupWebSocket = (server) => {
                             ws.send(JSON.stringify({ type: 'ERROR', payload: { message: 'Already checked in' } }));
                             break;
                         }
-                        console.log(await pool.query('SELECT * FROM conference;'));
                         const delegateCheckResult = await pool.query('SELECT * FROM conference WHERE delegate_id = $1', [registrationId]);
                         console.log(delegateCheckResult);
                         if (delegateCheckResult.rows.length === 0) {
