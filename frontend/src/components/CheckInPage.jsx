@@ -4,7 +4,7 @@ import "../styles/CheckInPage.css";
 const WS_BASE_URL = import.meta.env.VITE_WS_BASE_URL;
 
 export default function CheckInPage() {
-    const [checkinList, setCheckin] = useState([]);
+    const [checkinList, setCheckinList] = useState([]);
     const [displayQueue, setQueue] = useState([]);
     const [id, setId] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -26,18 +26,18 @@ export default function CheckInPage() {
             try {
                 switch (type) {
                     case 'ATTENDANCE_LOGS':
-                        setCheckin(payload);
+                        setCheckinList(payload);
                         if (payload.length > 0) {
                             setQueue([payload[0]]);
                         }
                         break;
                     case 'CHECKIN_SUCCESS':
                         setQueue((prev) => [payload.delegate, ...prev]);
-                        setCheckin((prev) => [payload.delegate, ...prev]);
+                        setCheckinList((prev) => [payload.delegate, ...prev]);
                         break;
                     case 'NEW_CHECKIN':
                         setQueue((prev) => [payload.delegate, ...prev]);
-                        setCheckin((prev) => [payload.delegate, ...prev]);
+                        setCheckinList((prev) => [payload.delegate, ...prev]);
                         break;
                     case 'ERROR':
                         setErrorMessage(payload.message);

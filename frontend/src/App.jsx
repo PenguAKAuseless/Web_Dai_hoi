@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import LandingPage from './components/LandingPage';
-import MainPage from './components/MainPage';
+import StatusPage from './components/StatusPage';
 import CheckInPage from './components/CheckInPage';
 
 export default function App() {
@@ -9,7 +9,7 @@ export default function App() {
             <Routes>
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/hidden-checkin-page" element={<CheckInPage />} />
-                <Route path="/status" element={<MainPage />} />
+                <Route path="/status" element={<StatusPage />} />
             </Routes>
         </div>
     );

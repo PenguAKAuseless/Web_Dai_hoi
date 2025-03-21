@@ -1,4 +1,4 @@
-.main-page {
+.status-page {
     background: url('/background.png') no-repeat center center fixed;
     background-size: cover;
     /* Ensures full-page coverage */
@@ -14,7 +14,7 @@
     overflow: hidden;
 }
 
-.main-content {
+.status-page .content {
     display: flex;
     width: 80%;
     height: 100%;
@@ -22,13 +22,27 @@
     align-items: center;
 }
 
-.main-left-section,
-.main-right-section {
+.status-page .left-section,
+.status-page .right-section {
     flex: 1;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.status-page .bulletin {
+    background-color: rgba(255, 255, 255, 0.35);
+    border-radius: 50px;
+    border: 10px solid #ee6709;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow: hidden;
+    margin-right: 10%;
+    padding: 5%;
+    width: 75%;
+    height: 75%;
+    font-family: 'Montserrat Black', sans-serif;
 }
 
 .logo-container {

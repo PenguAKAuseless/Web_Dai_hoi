@@ -14,11 +14,6 @@ const setupWebSocket = (server) => {
                 const { type, payload } = JSON.parse(message);
             
                 switch (type) {
-                    case 'GET_ATTENDANCE_STATS':
-                        const statsResult = await pool.query('SELECT COUNT(*) as total FROM attendance_log');
-                        ws.send(JSON.stringify({ type: 'ATTENDANCE_STATS', payload: { total: parseInt(statsResult.rows[0].total) } }));
-                        break;
-
                     case 'GET_ATTENDANCE_LOGS':
                         const logsResult = await pool.query(`
                             SELECT attendance_log.*, conference.name, conference.image
@@ -37,7 +32,6 @@ const setupWebSocket = (server) => {
                             break;
                         }
                         const delegateCheckResult = await pool.query('SELECT * FROM conference WHERE delegate_id = $1', [registrationId]);
-                        console.log(delegateCheckResult);
                         if (delegateCheckResult.rows.length === 0) {
                             ws.send(JSON.stringify({ type: 'ERROR', payload: { message: 'Delegate not found' } }));
                             break;
