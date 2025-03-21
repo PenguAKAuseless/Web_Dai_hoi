@@ -62,6 +62,7 @@ const setupWebSocket = (server) => {
 
         ws.on('close', () => {
             console.log('Client disconnected');
+            setTimeout(() => process.exit(1), 1000);
         });
     });
 

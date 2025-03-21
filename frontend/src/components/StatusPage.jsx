@@ -48,13 +48,15 @@ export default function StatusPage() {
 
     return (
         <div className="status-page">
+            <div className='statistics-title-container'>
+                <img src='./statistics-title.png' className='statistics-title'/>
+            </div>
             <div className="content">
                 <div className="left-section">
-                    {total > 0 && (
-                        <div className={`chart-container ${total > 0 ? "visible" : ""}`}>
-                            <PieChart checkedIn={checkedIn} notCheckedIn={total - checkedIn} />
-                        </div>
-                    )}
+                    <PieChart checkedIn={checkedIn} notCheckedIn={total - checkedIn} />
+                    <div className='logo-ten-dai-hoi-container'>
+                        <img src='./logo-ten-dai-hoi.png' className='logo-ten-dai-hoi'/>
+                    </div>
                 </div>
                 <div className="right-section">
                     <div className="checkin-bulletin">

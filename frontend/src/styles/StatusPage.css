@@ -1,11 +1,8 @@
 .status-page {
     background: url('/background.png') no-repeat center center fixed;
     background-size: cover;
-    /* Ensures full-page coverage */
     width: 100vw;
-    /* Full viewport width */
     height: 100vh;
-    /* Full viewport height */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -14,21 +11,63 @@
     overflow: hidden;
 }
 
+.statistics-title-container {
+    padding-top: 2%;
+    width: 90%;
+    padding-bottom: 2%
+}
+
+.statistics-title {
+    width: 100%;
+}
+
 .status-page .content {
     display: flex;
-    width: 80%;
+    width: 100%;
     height: 100%;
     justify-content: space-between;
     align-items: center;
 }
 
-.status-page .left-section,
-.status-page .right-section {
+.status-page .left-section {
     flex: 1;
+    width: 50%;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+}
+
+.status-page .right-section {
+    flex: 1;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    align-items: center;
+}
+
+.status-page .chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    margin-left: -20%
+}
+
+.status-page .logo-ten-dai-hoi-container {
+    display: flex;
+    justify-self: center;
+    align-items: center;
+    margin: 5%;
+    height: 40%;
+}
+
+.status-page .logo-ten-dai-hoi {
+    width: 100%;
 }
 
 .status-page .bulletin {
@@ -82,27 +121,8 @@
     margin-top: 20px;
 }
 
-.main-right-section {
+.status-page .right-section {
     text-align: right;
     background-color: transparent;
 }
 
-.chart-container {
-    display: none;
-    /* Hide by default */
-    display: flex;
-    /* Use flexbox for centering */
-    justify-content: center;
-    /* Center horizontally */
-    align-items: center;
-    /* Center vertically */
-    width: 100%;
-    /* Ensure it takes full width */
-    height: 100%;
-    /* Ensure it takes full height */
-}
-
-.chart-container.visible {
-    display: flex;
-    /* Show and use flexbox for centering */
-}

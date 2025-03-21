@@ -20,6 +20,7 @@
     margin-top: 2.5%;
     align-items: center;
     justify-content: center;
+    height: 20%;
 }
 
 .checkin-text {
@@ -31,7 +32,7 @@
 .checkin-content {
     display: flex;
     width: 100%;
-    height: 100%;
+    height: 80%;
     justify-content: space-around;
     align-items: center;
     margin-top: 30px;

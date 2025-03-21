@@ -32,6 +32,7 @@ const PieChart = ({ checkedIn = 0, notCheckedIn = 0 }) => {
                     weight: "bold",
                     size: 40,
                 },
+                
                 formatter: (value) => value > 0 ? value : "",
             },
         },

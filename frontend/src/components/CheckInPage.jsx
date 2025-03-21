@@ -106,7 +106,7 @@ export default function CheckInPage() {
                                 <img src="/logo.png" alt="Logo" className="checkin-logo" />
                             </div>
                             <div className="name-container">
-                                <img src="/Ten_Dai_hoi.png" alt="Đại hội đại biểu" className="ten-dai-hoi" />
+                                <img src="/ten-dai-hoi.png" alt="Đại hội đại biểu" className="ten-dai-hoi" />
                             </div>
                         </>
                     )}
