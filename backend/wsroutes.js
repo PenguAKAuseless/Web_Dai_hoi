@@ -6,6 +6,36 @@ console.log(await pool.query("SELECT * FROM conference;"))
 const setupWebSocket = (server) => {
     const wss = new WebSocketServer({ server });
 
+    // Keep-alive mechanism
+    let keepAliveInterval;
+
+    function startKeepAlive() {
+        // Clear any existing interval
+        if (keepAliveInterval) clearInterval(keepAliveInterval);
+
+        // Create a fake client connection every 5 minutes
+        keepAliveInterval = setInterval(() => {
+            console.log('Sending keep-alive ping');
+            // Ping all clients to keep connections alive
+            wss.clients.forEach(client => {
+                try {
+                    client.ping();
+                } catch (err) {
+                    console.error('Ping error:', err);
+                }
+            });
+
+            // If there are no clients, you could make an internal request to your server
+            if (wss.clients.size === 0) {
+                console.log('No clients connected, keeping server active');
+                // You could add additional logic here if needed
+            }
+        }, 2 * 60 * 1000); // 2 minutes interval
+    }
+
+    // Start the keep-alive as soon as the server starts
+    startKeepAlive();
+
     wss.on('connection', (ws) => {
         console.log('New client connected');
 
@@ -62,7 +92,6 @@ const setupWebSocket = (server) => {
 
         ws.on('close', () => {
             console.log('Client disconnected');
-            setTimeout(() => process.exit(1), 1000);
         });
     });
 
