@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
+import CustomPieChart from "./PieChart";
 
 const WS_BASE_URL = import.meta.env.VITE_WS_BASE_URL;
 
-export default function CheckInPage() {
-    const [checkinList, setCheckinList] = useState([]);
-    const [displayQueue, setQueue] = useState([]);
-    const [id, setId] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
+export default function StatisticsPage() {
+    const [attendanceStats, setAttendanceStats] = useState({
+        attendedCount: 0,
+        notAttendedCount: 104
+    });
+    const [attendeeList, setAttendeeList] = useState([]);
     const [socket, setSocket] = useState(null);
+    const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
         const ws = new WebSocket(WS_BASE_URL);
@@ -25,18 +28,19 @@ export default function CheckInPage() {
             try {
                 switch (type) {
                     case 'ATTENDANCE_LOGS':
-                        setCheckinList(payload);
-                        if (payload.length > 0) {
-                            setQueue([payload[0]]);
-                        }
+                        setAttendanceStats({
+                            attendedCount: payload.length,
+                            notAttendedCount: 104 - payload.length
+                        });
+                        setAttendeeList(payload);
                         break;
                     case 'CHECKIN_SUCCESS':
-                        setQueue((prev) => [payload.delegate, ...prev]);
-                        setCheckinList((prev) => [payload.delegate, ...prev]);
-                        break;
                     case 'NEW_CHECKIN':
-                        setQueue((prev) => [payload.delegate, ...prev]);
-                        setCheckinList((prev) => [payload.delegate, ...prev]);
+                        setAttendeeList((prev) => [payload.delegate, ...prev]);
+                        setAttendanceStats((prev) => ({
+                            attendedCount: prev.attendedCount + 1,
+                            notAttendedCount: prev.notAttendedCount - 1
+                        }));
                         break;
                     case 'ERROR':
                         setErrorMessage(payload.message);
@@ -63,137 +67,90 @@ export default function CheckInPage() {
         };
     }, []);
 
-    const checkIn = () => {
-        if (socket && socket.readyState === WebSocket.OPEN) {
-            socket.send(JSON.stringify({ type: 'CHECKIN_ATTENDANCE', payload: { registrationId: id } }));
-        } else {
-            setErrorMessage('WebSocket connection is not open');
-        }
-    };
-
     return (
-        <div className="min-h-screen w-full flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat relative overflow-hidden" style={{ backgroundImage: "url('/background.png')" }}>
-            {/* CHECK-IN Header */}
-            <div className="flex items-center justify-center h-1/5 mt-10 w-full">
-                <div className="w-2/3 text-center">
-                    <h1 className="text-6xl font-black text-orange-500 uppercase tracking-wide" style={{
-                        fontFamily: 'Montserrat Black, sans-serif',
-                        textShadow: '0 0 6px white, 0 0 10px white',
-                        background: 'linear-gradient(to right, #f07307, #ffb049)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent'
-                    }}>
-                        CHECK-IN
-                    </h1>
-                </div>
+        <div className="min-h-screen w-full flex flex-col items-center bg-cover bg-center bg-no-repeat relative overflow-hidden" style={{ backgroundImage: "url('/background.png')" }}>
+            {/* Statistics Header */}
+            <div className="w-full flex justify-center mt-4 md:mt-6">
+                <img src="./status-dai-hoi.png" alt="STATUS-DAI-HOI" className="h-12 md:h-16" />
             </div>
 
-            {/* Main Content Section */}
-            <div className="flex w-full h-4/5 justify-around items-center mt-8">
-                {/* Left Section */}
-                <div className="w-2/5 h-full flex flex-col justify-center items-center text-center relative">
-                    {displayQueue.length > 0 ? (
-                        <div className="relative flex justify-center items-center w-64 h-64 m-auto">
-                            {/* Welcome text */}
-                            <div className="absolute -top-1/4 flex flex-col z-10 w-full">
-                                <p className="text-4xl font-semibold text-blue-500 uppercase mt-3" style={{ fontFamily: 'Montserrat Black, sans-serif' }}>
-                                    CHÀO MỪNG
-                                </p>
-                            </div>
+            {/* Main Content Section - Responsive layout */}
+            <div className="flex flex-col lg:flex-row w-full justify-center items-center lg:items-start mt-8 lg:mt-16 mb-8 lg:mb-16 px-4">
 
-                            {/* Profile Image */}
-                            <img
-                                src={displayQueue[0].image}
-                                alt="Checked-in Person"
-                                className="w-52 h-52 rounded-full object-cover absolute animate-fadeIn"
-                            />
-                            <img
-                                src="./frame.png"
-                                alt="Frame"
-                                className="absolute top-1/2 left-1/2 w-full h-full transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-                            />
+                {/* Left Section - Chart and Legend */}
+                <div className="w-full lg:w-1/2 flex flex-col items-center mb-8 lg:mb-0">
 
-                            {/* Profile Info */}
-                            <div className="absolute top-full w-full" style={{ fontFamily: 'Montserrat Black, sans-serif' }}>
-                                <p className="text-xl font-black text-blue-800 mb-0">MSSV: {displayQueue[0].delegate_id}</p>
-                                <p className="text-5xl font-black text-orange-500 uppercase mt-3">{displayQueue[0].name}</p>
-                            </div>
+                    {/* Chart Container - Responsive dimensions */}
+                    <div className="flex justify-center items-center w-full">
+                        <div className="h-auto w-full sm:w-4/5 md:w-3/4 lg:w-2/3 aspect-square">
+                            <CustomPieChart
+                                attendedCount={attendanceStats.attendedCount}
+                                notAttendedCount={attendanceStats.notAttendedCount}
+                            />
                         </div>
-                    ) : (
-                        <>
-                            <div className="flex justify-center items-center w-full h-1/3">
-                                <img src="/logo.png" alt="Logo" className="max-w-full max-h-full w-auto" />
+                    </div>
+
+                    {/* Color Legend - Centered and responsive */}
+                    <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-8 space-y-4 sm:space-y-0 mt-6 md:mt-8">
+                        <div className="flex items-center">
+                            <div className="w-8 h-8 md:w-10 md:h-10">
+                                <div style={{ backgroundColor: "#ed7d31" }} className="w-full h-full rounded-md"></div>
                             </div>
-                            <div className="mt-4">
-                                <img src="/ten-dai-hoi.png" alt="Đại hội đại biểu" className="max-w-full" />
+                            <span className="text-lg md:text-2xl font-bold ml-2" style={{ fontFamily: 'Montserrat Black, sans-serif' }}>
+                                CHƯA THAM DỰ
+                            </span>
+                        </div>
+                        <div className="flex items-center">
+                            <div className="w-8 h-8 md:w-10 md:h-10">
+                                <div style={{ backgroundColor: "#4472c4" }} className="w-full h-full rounded-md"></div>
                             </div>
-                        </>
-                    )}
+                            <span className="text-lg md:text-2xl font-bold ml-2" style={{ fontFamily: 'Montserrat Black, sans-serif' }}>
+                                ĐÃ THAM DỰ
+                            </span>
+                        </div>
+                    </div>
+
                 </div>
 
-                {/* Right Section */}
-                <div className="flex w-1/2 h-full justify-start items-center">
-                    <div className="bg-white bg-opacity-35 rounded-3xl border-10 border-orange-500 flex flex-col items-start justify-start overflow-hidden mr-10 p-5 w-3/4 h-3/4" style={{ fontFamily: 'Montserrat Black, sans-serif' }}>
-                        {/* Input Section */}
-                        <div className="flex items-center rounded-full border-3 border-blue-600 bg-white overflow-hidden w-full">
-                            <input
-                                value={id}
-                                onChange={(e) => setId(e.target.value)}
-                                onKeyDown={(e) => {
-                                    if (e.key === "Enter") {
-                                        checkIn();
-                                        setId("");
-                                    }
-                                }}
-                                className="flex-1 border-none text-base outline-none py-2.5 px-5"
-                                placeholder="Nhập số ID của bạn..."
-                                style={{ fontFamily: 'Montserrat Black, sans-serif' }}
-                            />
-                            <button
-                                onClick={() => {
-                                    checkIn();
-                                    setId("");
-                                }}
-                                className="bg-green-600 text-white border-none py-2.5 px-5 rounded-r-full text-xl cursor-pointer transition-colors hover:bg-green-800"
-                                style={{ fontFamily: 'Montserrat Bold, sans-serif', fontWeight: 'bolder' }}
-                            >
-                                ▶
-                            </button>
+                {/* Right Section - Attendee List */}
+                <div className="w-full lg:w-1/2 flex justify-center items-start">
+                    <div className="bg-white bg-opacity-35 p-4 md:p-6 w-full max-w-xl h-auto"
+                        style={{
+                            border: "8px solid #ee6709",
+                            borderRadius: "67px",
+                        }}
+                    >
+
+                        {/* Headers for the list */}
+                        <div className="flex w-full border-b-2 md:border-b-4 border-blue-500 pb-2 mb-2">
+                            <div className="text-blue-500 font-bold text-base md:text-xl w-2/3 text-center pl-2"
+                                style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                                Họ và tên
+                            </div>
+                            <div className="text-blue-500 font-bold text-base md:text-xl w-1/3 text-center pl-2"
+                                style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                                MSSV
+                            </div>
                         </div>
 
-                        {/* Check-in List */}
-                        <div className="w-full mt-4">
-                            <table className="w-full border-collapse text-xl">
-                                <thead>
-                                    <tr>
-                                        <th className="text-left py-2.5 px-6 text-blue-500 font-bold border-b-4 border-blue-500">Họ và tên</th>
-                                        <th className="text-left py-2.5 px-6 text-blue-500 font-bold border-b-4 border-blue-500">MSSV</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {checkinList.map((delegate) => (
-                                        <tr key={delegate.delegate_id}>
-                                            <td className="text-left py-2.5 px-6 w-4/5">{delegate.name}</td>
-                                            <td className="text-left py-2.5 px-6 w-1/5">{delegate.delegate_id}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                        {/* Attendee List with responsive height */}
+                        <div className="overflow-y-auto custom-scrollbar" style={{ height: "60vh" }}>
+                            {attendeeList.map((delegate) => (
+                                <div key={delegate.delegate_id} className="flex w-full py-1 md:py-2 border-b border-gray-200">
+                                    <div className="w-3/4 pl-2 text-base md:text-lg font-bold uppercase"
+                                        style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                                        {delegate.name}
+                                    </div>
+                                    <div className="w-1/4 pl-2 text-base md:text-lg font-bold">
+                                        {delegate.delegate_id}
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {/* Add custom animation for fade in effect */}
-            <style jsx>{`
-                @keyframes fadeIn {
-                    from { opacity: 0; }
-                    to { opacity: 1; }
-                }
-                .animate-fadeIn {
-                    animation: fadeIn 0.5s ease-in-out;
-                }
-            `}</style>
+            </div>
         </div>
     );
 }

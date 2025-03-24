@@ -9,13 +9,21 @@ export default function CheckInPage() {
     const [errorMessage, setErrorMessage] = useState("");
     const [socket, setSocket] = useState(null);
 
+    // Function to request attendance logs
+    const requestAttendanceLogs = (ws) => {
+        if (ws && ws.readyState === WebSocket.OPEN) {
+            console.log('Requesting attendance logs');
+            ws.send(JSON.stringify({ type: 'GET_ATTENDANCE_LOGS' }));
+        }
+    };
+
     useEffect(() => {
         const ws = new WebSocket(WS_BASE_URL);
         setSocket(ws);
 
         ws.onopen = () => {
             console.log('Connected to WebSocket server');
-            ws.send(JSON.stringify({ type: 'GET_ATTENDANCE_LOGS' }));
+            requestAttendanceLogs(ws);
         };
 
         ws.onmessage = (event) => {
@@ -27,7 +35,7 @@ export default function CheckInPage() {
                     case 'ATTENDANCE_LOGS':
                         setCheckinList(payload);
                         if (payload.length > 0) {
-                            setQueue([payload]);
+                            setQueue(payload);
                         }
                         break;
                     case 'CHECKIN_SUCCESS':
@@ -57,6 +65,14 @@ export default function CheckInPage() {
         ws.onclose = () => {
             console.log('Disconnected from WebSocket server');
         };
+
+        // Add event listener for page refresh/reload
+        window.addEventListener('load', () => {
+            console.log('Page loaded/refreshed');
+            if (ws.readyState === WebSocket.OPEN) {
+                requestAttendanceLogs(ws);
+            }
+        });
 
         return () => {
             ws.close();
@@ -89,26 +105,74 @@ export default function CheckInPage() {
 
                 {/* Main Content Area */}
                 <div className="flex flex-row justify-between px-12 flex-1">
-                    {/* Left Section - Logo and Event Information */}
-                    <div className="w-1/2 flex flex-col items-center justify-center pr-12">
-                        <div className="flex flex-col items-center">
-                            {/* Logo */}
-                            <div className="mb-6 w-64">
-                                <img src="/logo.png" alt="Logo" className="w-full h-auto" />
-                            </div>
+                    {/* Left Section - Logo and Event Information OR Welcome Message */}
+                    <div className="w-1/2 flex flex-col items-center justify-center">
+                        {displayQueue.length > 0 ? (
+                            // Welcome content (replaces logo & ten-dai-hoi when someone checks in)
+                            <div className="flex flex-col items-center animate-fadeIn w-full max-w-md mx-auto">
+                                <p className="text-5xl font-bold text-blue-500 mb-6 text-center"
+                                    style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                                    CHÀO MỪNG
+                                </p>
 
-                            {/* Đại hội đại biểu text */}
-                            <div className="w-full">
-                                <img src="/ten-dai-hoi.png" alt="Đại hội đại biểu" className="w-full h-auto" />
+                                {/* Simple frame and image implementation - centered */}
+                                <div className="mb-8 relative mx-auto" style={{ width: "300px", height: "300px" }}>
+                                    {/* Blue circular frame */}
+                                    <div className="w-full h-full rounded-full"
+                                        style={{
+                                            boxShadow: "0 0 0 12px #1597d8",
+                                            position: "absolute",
+                                            top: 0,
+                                            left: 0
+                                        }}>
+                                    </div>
+
+                                    {/* Profile image */}
+                                    <div className="w-full h-full overflow-hidden rounded-full">
+                                        <img
+                                            src={displayQueue[0].image}
+                                            alt="Checked-in Person"
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </div>
+                                </div>
+
+                                <p className="text-2xl font-bold text-blue-600 mb-2 text-center"
+                                    style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                                    MSSV: {displayQueue[0].delegate_id}
+                                </p>
+                                {/* Larger name display */}
+                                <p className="text-5xl font-extrabold text-orange-500 uppercase text-center"
+                                    style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                                    {displayQueue[0].name}
+                                </p>
                             </div>
-                        </div>
+                        ) : (
+                            // Default left side with logo and event title
+                            <div className="flex flex-col items-center max-w-md mx-auto">
+                                {/* Logo */}
+                                <div className="mb-6 w-64">
+                                    <img src="/logo.png" alt="Logo" className="w-full h-auto" />
+                                </div>
+
+                                {/* Đại hội đại biểu text */}
+                                <div className="w-full">
+                                    <img src="/ten-dai-hoi.png" alt="Đại hội đại biểu" className="w-full h-auto" />
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     {/* Right Section - Check-in Form and Attendee List */}
                     <div className="w-1/2 flex justify-center items-center">
-                        <div className="bg-white bg-opacity-25 rounded-3xl border-4 border-orange-500 p-6 w-full max-w-xl h-auto">
+                        <div className="bg-white bg-opacity-35 p-6 w-full max-w-xl h-auto"
+                            style={{
+                                border: "8px solid #ee6709",
+                                borderRadius: "67px",
+                            }}
+                        >
                             {/* Input Section */}
-                            <div className="flex items-center rounded-full border-2 border-blue-400 bg-white overflow-hidden mb-6">
+                            <div className="flex items-center rounded-full border-4 border-blue-400 bg-white overflow-hidden mb-6">
                                 <input
                                     value={id}
                                     onChange={(e) => setId(e.target.value)}
@@ -130,95 +194,40 @@ export default function CheckInPage() {
                                     className="bg-green-600 text-white border-none py-3 px-6 text-xl flex items-center justify-center"
                                     style={{ fontFamily: 'Montserrat, sans-serif', width: '60px' }}
                                 >
-                                    <span className="transform rotate-90">➤</span>
+                                    <span className="transform text-xl">➡</span>
                                 </button>
                             </div>
 
                             {/* Headers for the list */}
-                            <div className="flex w-full border-b-2 border-blue-500 pb-2 mb-2">
-                                <div className="text-blue-500 font-bold text-xl w-2/3 pl-2"
+                            <div className="flex w-full border-b-4 border-blue-500 pb-2 mb-2">
+                                <div className="text-blue-500 font-bold text-xl w-2/3 text-center pl-2"
                                     style={{ fontFamily: 'Montserrat, sans-serif' }}>
                                     Họ và tên
                                 </div>
-                                <div className="text-blue-500 font-bold text-xl w-1/3 pl-2"
+                                <div className="text-blue-500 font-bold text-xl w-1/3 text-center pl-2"
                                     style={{ fontFamily: 'Montserrat, sans-serif' }}>
                                     MSSV
                                 </div>
                             </div>
 
-                            {/* Attendee List with fixed height - better matches the design */}
+                            {/* Attendee List with fixed height */}
                             <div className="overflow-y-auto custom-scrollbar" style={{ height: "calc(100vh - 350px)", maxHeight: "420px" }}>
                                 {checkinList.map((delegate) => (
                                     <div key={delegate.delegate_id} className="flex w-full py-2 border-b border-gray-200">
-                                        <div className="w-2/3 pl-2 text-lg font-medium">
+                                        <div className="w-3/4 pl-2 text-lg font-bold uppercase"
+                                            style={{ fontFamily: 'Montserrat, sans-serif' }}>
                                             {delegate.name}
                                         </div>
-                                        <div className="w-1/3 pl-2 text-lg">
+                                        <div className="w-1/4 pl-2 text-lg font-bold">
                                             {delegate.delegate_id}
                                         </div>
                                     </div>
                                 ))}
                             </div>
                         </div>
-                    </div>
+                    </div>  
                 </div>
             </div>
-
-            {/* Welcome message when someone checks in */}
-            {displayQueue.length > 0 && (
-                <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-blue-900 bg-opacity-50 z-20">
-                    <div className="bg-white bg-opacity-90 p-8 rounded-3xl max-w-md flex flex-col items-center">
-                        <p className="text-4xl font-bold text-blue-500 mb-4"
-                            style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                            CHÀO MỪNG
-                        </p>
-
-                        <div className="relative mb-6">
-                            <div className="w-40 h-40 relative">
-                                <img
-                                    src={displayQueue[0].image || "/placeholder-avatar.png"}
-                                    alt="Checked-in Person"
-                                    className="w-40 h-40 rounded-full object-cover animate-fadeIn"
-                                />
-                                <img
-                                    src="./frame.png"
-                                    alt="Frame"
-                                    className="absolute top-0 left-0 w-full h-full"
-                                />
-                            </div>
-                        </div>
-
-                        <p className="text-lg font-bold text-blue-600 mb-1"
-                            style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                            MSSV: {displayQueue[0].delegate_id}
-                        </p>
-                        <p className="text-3xl font-extrabold text-orange-500"
-                            style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                            {displayQueue[0].name}
-                        </p>
-
-                        <button
-                            onClick={() => setQueue([])}
-                            className="mt-6 bg-blue-500 text-white px-6 py-2 rounded-full font-bold"
-                        >
-                            Đóng
-                        </button>
-                    </div>
-                </div>
-            )}
-
-            {/* Error message display */}
-            {errorMessage && (
-                <div className="absolute bottom-4 right-4 bg-red-500 text-white p-4 rounded-lg shadow-lg z-30">
-                    <p>{errorMessage}</p>
-                    <button
-                        onClick={() => setErrorMessage("")}
-                        className="absolute top-1 right-2 text-white"
-                    >
-                        ✕
-                    </button>
-                </div>
-            )}
 
             {/* Animations and Custom Scrollbar */}
             <style jsx>{`
