@@ -156,7 +156,7 @@ export default function SV5TShowcase() {
                     <p className="text-xl text-gray-600">MSSV: {sv5tMembers[currentIndex].mssv}</p>
                     <p className="text-3xl text-gray-500 mt-1"
                         style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                            {sv5tMembers[currentIndex].thanhTich}</p>
+                        {sv5tMembers[currentIndex].thanhTich}</p>
                 </div>
 
                 {/* Navigation Buttons */}
@@ -179,7 +179,11 @@ export default function SV5TShowcase() {
             </div>
 
             {/* Right Side - Chart */}
-            <SV5TChart />
+            <div className="w-1/2 flex items-center justify-center p-8">
+                <div className="w-full max-w-[600px] h-[400px]">
+                    <SV5TChart />
+                </div>
+            </div>
         </div>
     );
 }

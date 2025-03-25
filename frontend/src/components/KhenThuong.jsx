@@ -133,7 +133,7 @@ const KhenThuong = () => {
     return (
         <div
             id="khen-thuong"
-            className="w-full flex flex-col items-center bg-fixed bg-cover bg-center bg-no-repeat relative overflow-hidden h-screen"
+            className="w-full flex flex-col items-center bg-fixed bg-cover bg-center bg-no-repeat relative overflow-hidden min-h-screen"
             style={{
                 backgroundImage: "url('/background.png')",
                 fontFamily: "Montserrat, sans-serif",
@@ -142,7 +142,7 @@ const KhenThuong = () => {
         >
             <h2 className="text-3xl font-bold text-center my-4 text-blue-800" style={{ fontFamily: "Montserrat Black, sans-serif" }}>THÀNH TÍCH</h2>
 
-            <div className="relative w-full max-w-6xl h-2/3 mx-auto shadow-xl rounded-lg overflow-hidden">
+            <div className="relative w-full max-w-3xl h-[70vh] mx-auto shadow-xl rounded-lg overflow-hidden">
                 {/* Main Slider */}
                 <div
                     className="h-full transition-all duration-500 ease-in-out"
@@ -161,7 +161,7 @@ const KhenThuong = () => {
                             <img
                                 src={slide.image}
                                 alt={slide.alt}
-                                className="absolute inset-0 w-full h-full object-cover object-center"
+                                className="absolute inset-0 w-full h-full object-contain object-center bg-white"
                                 onError={(e) => {
                                     e.target.src = '/placeholder.png'; // Fallback image
                                 }}
@@ -223,11 +223,11 @@ const KhenThuong = () => {
             </div>
 
             {/* Thumbnails */}
-            <div className="hidden md:flex overflow-x-auto py-4 px-4 gap-2 max-w-6xl mx-auto mt-2 bg-white bg-opacity-10 backdrop-blur-sm rounded-lg no-scrollbar">
+            <div className="hidden md:flex overflow-x-auto py-4 px-4 gap-2 max-w-3xl mx-auto mt-2 bg-white bg-opacity-10 backdrop-blur-sm rounded-lg no-scrollbar">
                 {slides.map((slide, index) => (
                     <button
                         key={index}
-                        className={`flex-shrink-0 w-24 h-16 overflow-hidden rounded focus:outline-none transition-all duration-300 ${currentIndex === index
+                        className={`flex-shrink-0 w-32 h-20 overflow-hidden rounded focus:outline-none transition-all duration-300 ${currentIndex === index
                             ? "ring-2 ring-blue-500 scale-110 shadow-lg"
                             : "opacity-70 hover:opacity-100 hover:scale-105"
                             }`}
@@ -237,7 +237,7 @@ const KhenThuong = () => {
                         <img
                             src={slide.image}
                             alt={`Thumbnail ${index + 1}`}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-contain bg-white"
                             onError={(e) => {
                                 e.target.src = '/placeholder.png';
                             }}

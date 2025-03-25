@@ -4,21 +4,21 @@ const slides = [
     {
         id: 1,
         title: "Sinh viên 5 tốt",
-        description: "Khoa KH&KT Máy tính tự hào với gần 90 gương sinh viên 5 tốt được vinh danh tại Lễ Bach khoa Youth Award 2024, khẳng định vị trí dẫn đầu trong nhiều cấp độ!",
+        description: "Khoa KH&KT Máy tính tự hào là đơn vị dẫn đầu ở nhiều cấp độ trong phong trào Sinh viên 5 tốt. Năm 2023, khoa KH&KT Máy tính có 88 gương SV5T cấp Trường, 74 gương SV5T cấp ĐHQG, 75 gương SV5T cấp Thành phố và đặc biệt 20 gương SV5T cấp Trung ương.",
         image: "./source-su-kien/SV5T.jpg",
         alt: "SV5T"
     },
     {
         id: 2,
         title: "CSE Minathon 2024",
-        description: "Cuộc thi CSE Minathon 2025 khơi dậy tinh thần sáng tạo và hợp tác trong lĩnh vực lập trình, nơi các tài năng trẻ tỏa sáng!",
+        description: "Cuộc thi CSE Minathon 2025 khơi dậy tinh thần sáng tạo và hợp tác trong lĩnh vực lập trình, là nơi các tài năng trẻ Bách khoa tỏa sáng",
         image: "./source-su-kien/CSE_Minathon_2024.jpg",
         alt: "CSE_Minathon_2024"
     },
     {
         id: 3,
         title: "Mùa hè xanh 2024",
-        description: "Chiến dịch với hoạt động truyền thống bê tông hóa đường huyện Tân Hồng, tỉnh Đồng Tháp",
+        description: "Chiến dịch với hoạt động truyền thống bê tông hóa các tuyến đường huyện Tân Hồng, tỉnh Đồng Tháp",
         image: "./source-su-kien/MHX_2024.JPG",
         alt: "MHX_2024"
     },
@@ -32,7 +32,7 @@ const slides = [
     {
         id: 5,
         title: "Lễ chào đón TSV khóa 2024",
-        description: "Buổi lễ chào đón Tân sinh viên khóa 2024 đón nhận hơn nhiều Tân sinh viên khoa KH&KT Máy tính",
+        description: "Buổi lễ chào đón Tân sinh viên khóa 2024 đón nhận các Tân sinh viên khoa KH&KT Máy tính",
         image: "./source-su-kien/Chao_mung_tsv_k24.jpg",
         alt: "Chao_mung_tsv_k24"
     },
@@ -53,7 +53,7 @@ const slides = [
     {
         id: 8,
         title: "BK Uprace 2024",
-        description: "Giải chạy bộ truyền thống, rèn luyện thể lực và tinh thần thể thao cho sinh viên trường Đại học Bách khoa - ĐHQG-HCM",
+        description: "Giải chạy bộ truyền thống rèn luyện thể lực và tinh thần thể thao cho sinh viên trường Đại học Bách khoa - ĐHQG-HCM",
         image: "./source-su-kien/Uprace_2024.jpg",
         alt: "Uprace_2024"
     },
@@ -74,7 +74,7 @@ const slides = [
     {
         id: 11,
         title: "eCSE CUP 2025",
-        description: "Sân chơi Thể thao điện tử sôi động eCSE CUP là nơi các tuyển thủ sinh viên Bách khoa được thỏa sức thể hiện tài năng và đam mê của mình",
+        description: "Sân chơi Thể thao điện tử sôi động eCSE CUP là nơi các sinh viên Bách khoa được thỏa sức thể hiện tài năng và đam mê của mình",
         image: "./source-su-kien/eCSE_CUP_2025.jpg",
         alt: "eCSE_CUP_2025"
     }
