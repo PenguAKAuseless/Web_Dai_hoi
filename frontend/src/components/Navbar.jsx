@@ -14,7 +14,7 @@ const Navbar = () => {
             <ul>
                 <li onClick={() => scrollToSection("dai-hoi")}>Đại hội</li>
                 <li onClick={() => scrollToSection("su-kien")}>Hoạt động tiêu biểu</li>
-                <li onClick={() => scrollToSection("thanh-tich")}>Bằng khen</li>
+                <li onClick={() => scrollToSection("khen-thuong")}>Bằng khen</li>
                 <li onClick={() => scrollToSection("sv5t")}>Sinh viên 5 tốt</li>
             </ul>
         </nav>

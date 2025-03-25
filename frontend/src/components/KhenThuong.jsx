@@ -3,84 +3,28 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 const slides = [
     {
         id: 1,
-        title: "Sinh viên 5 tốt",
-        description: "Khoa KH&KT Máy tính tự hào với gần 90 gương sinh viên 5 tốt được vinh danh tại Lễ Bach khoa Youth Award 2024, khẳng định vị trí dẫn đầu trong nhiều cấp độ!",
-        image: "./source-su-kien/SV5T.jpg",
-        alt: "SV5T"
+        title: "Bach khoa Youth Awards 2024",
+        description: "Giải thưởng Tuổi trẻ Bách khoa - Hạng mục Chương trình/hoạt động xuất sắc nhất",
+        image: "./source-khen-thuong/GK_hoat_dong_xuat_sac_nhat.jpg",
+        alt: "Bach_khoa_Youth_Awards_2024"
     },
     {
         id: 2,
-        title: "CSE Minathon 2024",
-        description: "Cuộc thi CSE Minathon 2025 khơi dậy tinh thần sáng tạo và hợp tác trong lĩnh vực lập trình, nơi các tài năng trẻ tỏa sáng!",
-        image: "./source-su-kien/CSE_Minathon_2024.jpg",
-        alt: "CSE_Minathon_2024"
+        title: "Chiến dịch Mùa hè xanh 2024",
+        description: "Giấy khen của Hội Sinh viên Việt Nam Thành phố Hồ Chí Minh về thành tích xuất sắc trong Chiến dịch tình nguyện Mùa hè xanh lần thứ 31",
+        image: "./source-khen-thuong/GK_MHX_2024.jpg",
+        alt: "MHX_2024_Giay_Khen"
     },
     {
         id: 3,
-        title: "Mùa hè xanh 2024",
-        description: "Chiến dịch với hoạt động truyền thống bê tông hóa đường huyện Tân Hồng, tỉnh Đồng Tháp",
-        image: "./source-su-kien/MHX_2024.JPG",
-        alt: "MHX_2024"
-    },
-    {
-        id: 4,
-        title: "CSE Summer School 2024",
-        description: "Trại hè CSE Summer School tạo sân chơi thú vị, giúp các em học sinh khám phá môi trường đại học đầy màu sắc",
-        image: "./source-su-kien/CSE_summer_school.jpg",
-        alt: "CSE_summer_school"
-    },
-    {
-        id: 5,
-        title: "Lễ chào đón TSV khóa 2024",
-        description: "Buổi lễ chào đón Tân sinh viên khóa 2024 đón nhận hơn nhiều Tân sinh viên khoa KH&KT Máy tính",
-        image: "./source-su-kien/Chao_mung_tsv_k24.jpg",
-        alt: "Chao_mung_tsv_k24"
-    },
-    {
-        id: 6,
-        title: "Đêm hội trăng rằm 2024",
-        description: "Đêm hội trăng rằm ấm áp với nhiều quà tặng ý nghĩa cho các em thiếu nhi huyện Tân Hồng, tỉnh Đồng Tháp",
-        image: "./source-su-kien/Dem_hoi_trang_ram_2024.jpg",
-        alt: "Dem_hoi_trang_ram_2024"
-    },
-    {
-        id: 7,
-        title: "CSE Connection 2024",
-        description: "Hội trại chào mừng người bạn mới thu hút hơn 200 trại sinh là tân sinh viên khoa KH&KT Máy tính khóa 2024",
-        image: "./source-su-kien/CSE_Connection_2024.jpg",
-        alt: "CSE_Connection_2024"
-    },
-    {
-        id: 8,
-        title: "BK Uprace 2024",
-        description: "Giải chạy bộ truyền thống, rèn luyện thể lực và tinh thần thể thao cho sinh viên trường Đại học Bách khoa - ĐHQG-HCM",
-        image: "./source-su-kien/Uprace_2024.jpg",
-        alt: "Uprace_2024"
-    },
-    {
-        id: 9,
-        title: "Lễ Tốt nghiệp Tháng 11/2024",
-        description: "Lễ tốt nghiệp long trọng với nhiều sinh viên khoa KH&KT Máy tính đạt loại giỏi và xuất sắc",
-        image: "./source-su-kien/Le_tot_nghiep_11-2024.jpg",
-        alt: "Le_tot_nghiep_11-2024"
-    },
-    {
-        id: 10,
-        title: "Xuân tình nguyện 2025",
-        description: "Chiến dịch Xuân tình nguyện mang niềm vui và yêu thương đến mái ấm tình thương và trường học vùng sâu trong dịp Tết Nguyên đán",
-        image: "./source-su-kien/XTN_2025.jpg",
-        alt: "XTN_2025"
-    },
-    {
-        id: 11,
-        title: "eCSE CUP 2025",
-        description: "Sân chơi Thể thao điện tử sôi động eCSE CUP là nơi các tuyển thủ sinh viên Bách khoa được thỏa sức thể hiện tài năng và đam mê của mình",
-        image: "./source-su-kien/eCSE_CUP_2025.jpg",
-        alt: "eCSE_CUP_2025"
+        title: "Thành tích Hội Sinh viên 2023-2024",
+        description: "Giấy khen của Ban chấp hành Trung ương Hội Sinh viên Việt Nam về thành tích xuất sắc trong công tác Hội và phong trào sinh viên năm học 2023 - 2024",
+        image: "./source-khen-thuong/GK_TW_HSV.jpg",
+        alt: "HSV_Thanh_Tich_2023_2024"
     }
 ];
 
-const SuKien = () => {
+const KhenThuong = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [touchStart, setTouchStart] = useState(0);
     const [touchEnd, setTouchEnd] = useState(0);
@@ -188,14 +132,15 @@ const SuKien = () => {
 
     return (
         <div
-            id="su-kien"
+            id="khen-thuong"
             className="w-full flex flex-col items-center bg-fixed bg-cover bg-center bg-no-repeat relative overflow-hidden h-screen"
             style={{
                 backgroundImage: "url('/background.png')",
-                fontFamily: "Montserrat, sans-serif"
+                fontFamily: "Montserrat, sans-serif",
+                backgroundAttachment: 'fixed'
             }}
         >
-            <h2 className="text-3xl font-bold text-center my-4 text-blue-800" style={{ fontFamily: "Montserrat Black, sans-serif" }}>SỰ KIỆN</h2>
+            <h2 className="text-3xl font-bold text-center my-4 text-blue-800" style={{ fontFamily: "Montserrat Black, sans-serif" }}>THÀNH TÍCH</h2>
 
             <div className="relative w-full max-w-6xl h-2/3 mx-auto shadow-xl rounded-lg overflow-hidden">
                 {/* Main Slider */}
@@ -209,8 +154,8 @@ const SuKien = () => {
                         <div
                             key={slide.id}
                             className={`absolute inset-0 transition-opacity duration-500 ${currentIndex === index
-                                    ? "opacity-100 z-10"
-                                    : "opacity-0 z-0"
+                                ? "opacity-100 z-10"
+                                : "opacity-0 z-0"
                                 }`}
                         >
                             <img
@@ -269,22 +214,22 @@ const SuKien = () => {
                         key={index}
                         onClick={() => goToSlide(index)}
                         className={`h-3 w-3 rounded-full focus:outline-none transition-all duration-300 ${currentIndex === index
-                                ? "bg-blue-600 scale-125"
-                                : "bg-gray-300 hover:bg-gray-400"
+                            ? "bg-blue-600 scale-125"
+                            : "bg-gray-300 hover:bg-gray-400"
                             }`}
                         aria-label={`Go to slide ${index + 1}`}
                     />
                 ))}
             </div>
 
-            {/* Thumbnails - Now with the original style but better visibility */}
+            {/* Thumbnails */}
             <div className="hidden md:flex overflow-x-auto py-4 px-4 gap-2 max-w-6xl mx-auto mt-2 bg-white bg-opacity-10 backdrop-blur-sm rounded-lg no-scrollbar">
                 {slides.map((slide, index) => (
                     <button
                         key={index}
                         className={`flex-shrink-0 w-24 h-16 overflow-hidden rounded focus:outline-none transition-all duration-300 ${currentIndex === index
-                                ? "ring-2 ring-blue-500 scale-110 shadow-lg"
-                                : "opacity-70 hover:opacity-100 hover:scale-105"
+                            ? "ring-2 ring-blue-500 scale-110 shadow-lg"
+                            : "opacity-70 hover:opacity-100 hover:scale-105"
                             }`}
                         onClick={() => goToSlide(index)}
                         aria-label={`Go to ${slide.title}`}
@@ -315,4 +260,4 @@ const SuKien = () => {
     );
 };
 
-export default SuKien;
+export default KhenThuong;

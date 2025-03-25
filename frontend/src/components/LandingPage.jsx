@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "./Navbar";
 import DaiHoi from "./DaiHoi";
 import SuKien from "./SuKien";
-import ThanhTich from "./ThanhTich";
+import KhenThuong from "./KhenThuong";
 import SV5T from "./SV5T";
 import ScrollToTopButton from "./ScrollToTopButton";
 
@@ -12,7 +12,7 @@ const LandingPage = () => {
             <Navbar />
             <DaiHoi />
             <SuKien />
-            <ThanhTich />
+            <KhenThuong />
             <SV5T />
             <ScrollToTopButton />
         </div>
