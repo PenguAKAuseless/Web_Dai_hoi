@@ -33,15 +33,22 @@ app.use(
 // Middleware
 app.use(express.json());
 
+// Global Error Handler
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
+
 // Express Session Configuration
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'defaultSecret',
+    secret: process.env.SESSION_SECRET || crypto.randomBytes(64).toString('hex'),
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: process.env.NODE_ENV === "production", // Only secure cookies in production
+        secure: process.env.NODE_ENV === "production",
         httpOnly: true,
-        sameSite: "Lax"
+        sameSite: "Lax",
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
     }
 }));
 
@@ -52,12 +59,17 @@ app.use('/api', routes);
 const server = createServer(app);
 
 (async () => {
-    await initializeConferenceData(); // Ensure conference data is loaded before WebSocket starts
+    try {
+        await initializeConferenceData();
+        setupWebSocket(server);
 
-    // Setup WebSocket server
-    setupWebSocket(server);
-
-    // Start Server
-    const PORT = process.env.PORT || 8000;
-    server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+        const PORT = process.env.PORT || 8000;
+        server.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+            console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+        });
+    } catch (error) {
+        console.error('Failed to start server:', error);
+        process.exit(1);
+    }
 })();

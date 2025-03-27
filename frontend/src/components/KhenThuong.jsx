@@ -133,7 +133,7 @@ const KhenThuong = () => {
     return (
         <div
             id="khen-thuong"
-            className="w-full flex flex-col items-center bg-fixed bg-cover bg-center bg-no-repeat relative overflow-hidden min-h-screen"
+            className="w-full flex flex-col items-center bg-fixed bg-cover bg-center bg-no-repeat relative overflow-hidden h-screen pt-[10vh]"
             style={{
                 backgroundImage: "url('/background.png')",
                 fontFamily: "Montserrat, sans-serif",
@@ -142,7 +142,7 @@ const KhenThuong = () => {
         >
             <h2 className="text-3xl font-bold text-center my-4 text-blue-800" style={{ fontFamily: "Montserrat Black, sans-serif" }}>THÀNH TÍCH</h2>
 
-            <div className="relative w-full max-w-3xl h-[70vh] mx-auto shadow-xl rounded-lg overflow-hidden">
+            <div className="relative w-full max-w-3xl h-[60vh] mx-auto shadow-xl rounded-lg overflow-hidden">
                 {/* Main Slider */}
                 <div
                     className="h-full transition-all duration-500 ease-in-out"

@@ -71,11 +71,11 @@ export default function StatisticsPage() {
         <div className="min-h-screen w-full flex flex-col items-center bg-cover bg-center bg-no-repeat relative overflow-hidden" style={{ backgroundImage: "url('/background.png')" }}>
             {/* Statistics Header */}
             <div className="w-full flex justify-center mt-4 md:mt-6">
-                <img src="./status-dai-hoi.png" alt="STATUS-DAI-HOI" className="h-12 md:h-16" />
+                <img src="./status-dai-hoi.png" alt="STATUS-DAI-HOI" className="h-16" />
             </div>
 
             {/* Main Content Section - Responsive layout */}
-            <div className="flex flex-col lg:flex-row w-full justify-center items-center lg:items-start mt-8 lg:mt-16 mb-8 lg:mb-16 px-4">
+            <div className="flex flex-col lg:flex-row w-full justify-center items-center lg:items-start mt-8 px-12 flex-1">
 
                 {/* Left Section - Chart and Legend */}
                 <div className="w-full lg:w-1/2 flex flex-col items-center mb-8 lg:mb-0">

@@ -46,7 +46,7 @@ const setupWebSocket = (server) => {
                 switch (type) {
                     case 'GET_ATTENDANCE_LOGS':
                         const logsResult = await pool.query(`
-                            SELECT attendance_log.*, conference.name, conference.image
+                            SELECT *
                             FROM attendance_log
                             JOIN conference ON attendance_log.delegate_id = conference.delegate_id
                             ORDER BY attendance_log.log_id DESC;

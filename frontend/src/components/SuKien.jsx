@@ -189,7 +189,7 @@ const SuKien = () => {
     return (
         <div
             id="su-kien"
-            className="w-full flex flex-col items-center bg-fixed bg-cover bg-center bg-no-repeat relative overflow-hidden h-screen"
+            className="w-full flex flex-col items-center bg-fixed bg-cover bg-center bg-no-repeat relative overflow-hidden h-screen pt-[10vh]"
             style={{
                 backgroundImage: "url('/background.png')",
                 fontFamily: "Montserrat, sans-serif"

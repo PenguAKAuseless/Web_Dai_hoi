@@ -43,19 +43,24 @@ export default function SV5TChart() {
                     ticks={[0, 25, 50, 75, 100, 125]}
                 />
                 <Tooltip />
-                <Legend />
+                <Legend
+                    wrapperStyle={{
+                        fontSize: '20px',  // Increase font size
+                        fontWeight: 'bold' // Make it bold
+                    }}
+                />
                 <Bar dataKey="2022-2023" fill="#ed7d31">
                     <LabelList
                         dataKey="2022-2023"
                         position="top"
-                        className="text-black font-black font-[Montserrat,sans-serif]"
+                        className="text-black text-xl font-black font-[Montserrat,sans-serif]"
                     />
                 </Bar>
                 <Bar dataKey="2023-2024" fill="#4472c4">
                     <LabelList
                         dataKey="2023-2024"
                         position="top"
-                        className="text-black font-black font-[Montserrat,sans-serif]"
+                        className="text-black text-xl font-black font-[Montserrat,sans-serif]"
                     />
                 </Bar>
             </BarChart>

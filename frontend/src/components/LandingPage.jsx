@@ -8,7 +8,8 @@ import ScrollToTopButton from "./ScrollToTopButton";
 
 const LandingPage = () => {
     return (
-        <div className="landing-page">
+        <div className="w-[100dvw] h-[100dvh] bg-cover bg-center bg-no-repeat bg-fixed"
+            style={{ backgroundImage: "url('/background.png')" }}>
             <Navbar />
             <DaiHoi />
             <SuKien />

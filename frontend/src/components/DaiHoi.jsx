@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 const DaiHoi = () => {
     const [countdown, setCountdown] = useState({
+        days: '00',
         hours: '00',
         minutes: '00',
         seconds: '00'
@@ -14,11 +15,13 @@ const DaiHoi = () => {
             const now = new Date().getTime();
             const distance = targetDate - now;
 
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
             setCountdown({
+                days: days.toString().padStart(2, '0'),
                 hours: hours.toString().padStart(2, '0'),
                 minutes: minutes.toString().padStart(2, '0'),
                 seconds: seconds.toString().padStart(2, '0')
@@ -26,7 +29,7 @@ const DaiHoi = () => {
 
             if (distance < 0) {
                 clearInterval(timer);
-                setCountdown({ hours: '00', minutes: '00', seconds: '00' });
+                setCountdown({ days: '00', hours: '00', minutes: '00', seconds: '00' });
             }
         }, 1000);
 
@@ -34,7 +37,15 @@ const DaiHoi = () => {
     }, []);
 
     return (
-        <div id="dai-hoi" className="relative min-h-screen bg-gradient-to-br from-blue-200 to-yellow-100 flex items-center justify-center">
+        <div
+            id="dai-hoi"
+            className="relative min-h-screen bg-fixed bg-cover bg-center bg-no-repeat flex items-center justify-center"
+            style={{
+                backgroundImage: "url('/background.png')",
+                fontFamily: "Montserrat Black, sans-serif",
+                backgroundAttachment: 'fixed'
+            }}
+        >
             <div className="absolute inset-0 opacity-50"></div>
 
             <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-xl px-4">
@@ -52,6 +63,10 @@ const DaiHoi = () => {
 
                 <div className="bg-white bg-opacity-80 rounded-lg p-6 shadow-lg w-full">
                     <div className="flex justify-center space-x-4">
+                        <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow-md">
+                            <div className="text-4xl font-bold text-blue-700">{countdown.days}</div>
+                            <div className="text-sm text-gray-600">Ngày</div>
+                        </div>
                         <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow-md">
                             <div className="text-4xl font-bold text-blue-700">{countdown.hours}</div>
                             <div className="text-sm text-gray-600">Giờ</div>
