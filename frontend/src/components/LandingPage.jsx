@@ -5,6 +5,7 @@ import SuKien from "./SuKien";
 import KhenThuong from "./KhenThuong";
 import SV5T from "./SV5T";
 import ScrollToTopButton from "./ScrollToTopButton";
+import Footer from "./Footer";
 
 const LandingPage = () => {
     return (
@@ -15,6 +16,7 @@ const LandingPage = () => {
             <SuKien />
             <KhenThuong />
             <SV5T />
+            <Footer />
             <ScrollToTopButton />
             {/* Add CSS to hide scrollbars */}
             <style jsx>{`
