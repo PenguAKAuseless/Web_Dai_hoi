@@ -7,3 +7,4 @@ dataconnect-generated/
 render.yaml
 backend/conference_data.csv
 backend/images/
+run.sh

@@ -8,7 +8,7 @@ import ScrollToTopButton from "./ScrollToTopButton";
 
 const LandingPage = () => {
     return (
-        <div className="w-[100dvw] h-[100dvh] bg-cover bg-center bg-no-repeat bg-fixed"
+        <div className="w-full h-full bg-cover bg-center bg-no-repeat bg-fixed"
             style={{ backgroundImage: "url('/background.png')" }}>
             <Navbar />
             <DaiHoi />
@@ -16,6 +16,16 @@ const LandingPage = () => {
             <KhenThuong />
             <SV5T />
             <ScrollToTopButton />
+            {/* Add CSS to hide scrollbars */}
+            <style jsx>{`
+                .no-scrollbar {
+                    -ms-overflow-style: none;  /* IE and Edge */
+                    scrollbar-width: none;  /* Firefox */
+                }
+                .no-scrollbar::-webkit-scrollbar {
+                    display: none;  /* Chrome, Safari and Opera */
+                }
+            `}</style>
         </div>
     );
 };

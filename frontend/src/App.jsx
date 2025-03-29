@@ -5,12 +5,10 @@ import CheckInPage from './components/CheckInPage';
 
 export default function App() {
     return (
-        <div>
-            <Routes>
-                <Route path="/" element={<LandingPage />} />
-                <Route path="/hidden-checkin-page" element={<CheckInPage />} />
-                <Route path="/status" element={<StatusPage />} />
-            </Routes>
-        </div>
+        <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/hidden-checkin-page" element={<CheckInPage />} />
+            <Route path="/status" element={<StatusPage />} />
+        </Routes>
     );
 }

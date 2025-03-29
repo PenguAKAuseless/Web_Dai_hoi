@@ -21,3 +21,18 @@
         animation: fadeIn 0.5s ease-in-out;
     }
 }
+
+.root{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    padding: 0;
+    margin: 0;
+}
+
+.body::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari - Ẩn scrollbar */
+}
