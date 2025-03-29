@@ -114,7 +114,7 @@ const Navbar = () => {
                         THÀNH TÍCH
                     </li>
                     <li
-                        className="cursor-pointer px-6 py-4 transition-all duration-300 hover:bg-[#5b9bd5] text-base font-semibold text-white hover:text-white"
+                        className="cursor-pointer px-6 py-4 transition-all duration-300 hover:bg-[#5b9bd5] text-base font-semibold text-white hover:text-white border-b border-[#5b9bd5]"
                         onClick={() => scrollToSection("sv5t")}
                     >
                         SINH VIÊN 5 TỐT
