@@ -265,7 +265,7 @@ const SuKien = () => {
                             <img
                                 src={slide.image || "/placeholder.svg"}
                                 alt={slide.alt}
-                                className="absolute inset-0 w-full h-full object-contain md:object-cover object-center"
+                                className="absolute inset-0 w-full h-full object-contain object-center"
                                 onError={(e) => {
                                     e.target.src = "/placeholder.png" // Fallback image
                                 }}

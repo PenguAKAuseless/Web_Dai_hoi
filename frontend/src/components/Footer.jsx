@@ -6,7 +6,7 @@ const Footer = () => {
         >
             <div className="footer-container flex flex-col md:flex-row w-11/12 md:w-5/6 mx-auto gap-8">
                 {/* Contact Information Section */}
-                <div className="w-full md:w-1/2">
+                <div className="w-full md:w-1/2 content-center">
                     <div className="flex flex-col sm:flex-row">
                         <div className="flex justify-center sm:justify-start mb-4 sm:mb-0">
                             <img
@@ -16,7 +16,7 @@ const Footer = () => {
                             />
                         </div>
                         <div className="text-center sm:text-left sm:ml-4">
-                            <div className="font-bold mt-2 sm:mt-5">Liên Chi hội khoa KH&KT Máy tính</div>
+                            <div className="font-bold ">Liên Chi hội khoa KH&KT Máy tính</div>
                             <div className="font-bold">Trường Đại học Bách khoa - ĐHQG-HCM</div>
                             <div className="leading-[1.3] text-sm font-thin mt-2">
                                 <b>E: </b>
