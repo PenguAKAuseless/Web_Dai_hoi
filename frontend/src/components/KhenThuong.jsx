@@ -303,7 +303,7 @@ const KhenThuong = () => {
                 THÀNH TÍCH
             </h2>
 
-            <div className="relative w-full max-w-4xl mx-auto shadow-2xl rounded-lg overflow-hidden md:h-2/3 h-[70vh]">
+            <div className="relative w-full max-w-4xl mx-auto rounded-lg overflow-hidden md:h-2/3 h-[70vh] shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
                 {/* Main Slider */}
                 <div
                     className="h-full transition-all duration-500 ease-in-out"
@@ -319,7 +319,7 @@ const KhenThuong = () => {
                             <img
                                 src={slide.image || "/placeholder.svg"}
                                 alt={slide.alt}
-                                className="absolute inset-y-0 h-full w-full md:w-auto object-cover object-center"
+                                className="absolute inset-y-0 h-full w-full md:w-auto object-contain md:object-cover object-center"
                                 onError={(e) => {
                                     e.target.src = "/placeholder.png" // Fallback image
                                 }}

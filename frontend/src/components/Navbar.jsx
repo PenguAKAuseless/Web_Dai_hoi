@@ -47,25 +47,31 @@ const Navbar = () => {
                     className="cursor-pointer px-4 py-3 rounded-lg transition-all duration-300 hover:bg-[#5b9bd5] text-sm md:text-base font-semibold text-white hover:text-white"
                     onClick={() => scrollToSection("dai-hoi")}
                 >
-                    Đại hội
+                    ĐẠI HỘI
                 </li>
                 <li
                     className="cursor-pointer px-4 py-3 rounded-lg transition-all duration-300 hover:bg-[#5b9bd5] text-sm md:text-base font-semibold text-white hover:text-white"
                     onClick={() => scrollToSection("su-kien")}
                 >
-                    Sự kiện
+                    SỰ KIỆN
                 </li>
                 <li
                     className="cursor-pointer px-4 py-3 rounded-lg transition-all duration-300 hover:bg-[#5b9bd5] text-sm md:text-base font-semibold text-white hover:text-white"
                     onClick={() => scrollToSection("khen-thuong")}
                 >
-                    Thành tích
+                    THÀNH TÍCH
                 </li>
                 <li
                     className="cursor-pointer px-4 py-3 rounded-lg transition-all duration-300 hover:bg-[#5b9bd5] text-sm md:text-base font-semibold text-white hover:text-white"
                     onClick={() => scrollToSection("sv5t")}
                 >
-                    Sinh viên 5 tốt
+                    SINH VIÊN 5 TỐT
+                </li>
+                <li
+                    className="cursor-pointer px-4 py-3 rounded-lg transition-all duration-300 hover:bg-[#5b9bd5] text-sm md:text-base font-semibold text-white hover:text-white"
+                    onClick={() => scrollToSection("footer")}
+                >
+                    LIÊN HỆ
                 </li>
             </ul>
 
@@ -93,25 +99,31 @@ const Navbar = () => {
                         className="cursor-pointer px-6 py-4 transition-all duration-300 hover:bg-[#5b9bd5] text-base font-semibold text-white hover:text-white border-b border-[#5b9bd5]"
                         onClick={() => scrollToSection("dai-hoi")}
                     >
-                        Đại hội
+                        ĐẠI HỘI
                     </li>
                     <li
                         className="cursor-pointer px-6 py-4 transition-all duration-300 hover:bg-[#5b9bd5] text-base font-semibold text-white hover:text-white border-b border-[#5b9bd5]"
                         onClick={() => scrollToSection("su-kien")}
                     >
-                        Sự kiện
+                        SỰ KIỆN
                     </li>
                     <li
                         className="cursor-pointer px-6 py-4 transition-all duration-300 hover:bg-[#5b9bd5] text-base font-semibold text-white hover:text-white border-b border-[#5b9bd5]"
                         onClick={() => scrollToSection("khen-thuong")}
                     >
-                        Thành tích
+                        THÀNH TÍCH
                     </li>
                     <li
                         className="cursor-pointer px-6 py-4 transition-all duration-300 hover:bg-[#5b9bd5] text-base font-semibold text-white hover:text-white"
                         onClick={() => scrollToSection("sv5t")}
                     >
-                        Sinh viên 5 tốt
+                        SINH VIÊN 5 TỐT
+                    </li>
+                    <li
+                        className="cursor-pointer px-6 py-4 transition-all duration-300 hover:bg-[#5b9bd5] text-base font-semibold text-white hover:text-white"
+                        onClick={() => scrollToSection("footer")}
+                    >
+                        LIÊN HỆ
                     </li>
                 </ul>
             </div>

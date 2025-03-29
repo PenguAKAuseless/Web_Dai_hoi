@@ -95,6 +95,7 @@ const SuKien = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [imagesLoaded, setImagesLoaded] = useState({})
     const [userInteracted, setUserInteracted] = useState(false)
+    const [showOverlay, setShowOverlay] = useState(false)
     const slidesRef = useRef([])
     const autoPlayTimeoutRef = useRef(null)
     const userInteractionTimeoutRef = useRef(null)
@@ -190,6 +191,10 @@ const SuKien = () => {
         setTouchStart(0)
     }
 
+    const handleTouchTap = () => {
+        setShowOverlay((prev) => !prev)
+    }
+
     // Setup auto-slide every 5 seconds if no user interaction
     useEffect(() => {
         if (!userInteracted && !isLoading) {
@@ -241,12 +246,15 @@ const SuKien = () => {
                 SỰ KIỆN
             </h2>
 
-            <div className="relative w-full max-w-6xl mx-auto shadow-xl rounded-lg overflow-hidden h-[70%] md:h-2/3">
+            <div className="relative w-full max-w-6xl mx-auto rounded-lg overflow-hidden h-[70%] md:h-2/3 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
                 {/* Main Slider */}
                 <div
                     className="h-full transition-all duration-500 ease-in-out"
                     onTouchStart={handleTouchStart}
                     onTouchEnd={handleTouchEnd}
+                    onClick={handleTouchTap}
+                    onMouseEnter={() => setShowOverlay(true)}
+                    onMouseLeave={() => setShowOverlay(false)}
                 >
                     {slides.map((slide, index) => (
                         <div
@@ -257,14 +265,23 @@ const SuKien = () => {
                             <img
                                 src={slide.image || "/placeholder.svg"}
                                 alt={slide.alt}
-                                className="absolute inset-0 w-full h-full object-cover object-center"
+                                className="absolute inset-0 w-full h-full object-contain md:object-cover object-center"
                                 onError={(e) => {
                                     e.target.src = "/placeholder.png" // Fallback image
                                 }}
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent opacity-80" />
 
-                            <div className="absolute bottom-0 left-0 right-0 p-3 md:p-8 text-white z-20">
+                            {/* Gradient overlay with fade-in animation */}
+                            <div
+                                className={`absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent transition-opacity duration-300 ease-in-out ${showOverlay ? "opacity-80" : "opacity-0"
+                                    }`}
+                            />
+
+                            {/* Text content with fade-in animation */}
+                            <div
+                                className={`absolute bottom-0 left-0 right-0 p-3 md:p-8 text-white z-20 transition-all duration-300 ease-in-out transform ${showOverlay ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                                    }`}
+                            >
                                 <h2
                                     className="text-lg md:text-3xl font-bold mb-1 md:mb-2"
                                     style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -282,13 +299,19 @@ const SuKien = () => {
                     ))}
                 </div>
 
-                {/* Slider Controls */}
-                <div className="absolute top-0 left-0 right-0 bottom-0 z-20 pointer-events-none">
+                {/* Slider Controls - with fade-in animation */}
+                <div
+                    className={`absolute top-0 left-0 right-0 bottom-0 z-20 pointer-events-none transition-opacity duration-300 ease-in-out ${showOverlay ? "opacity-100" : "opacity-0"
+                        }`}
+                >
                     <div className="relative w-full h-full flex items-center justify-between">
                         {/* Navigation Arrows */}
                         <button
                             className="absolute left-1 md:left-3 bg-black bg-opacity-30 hover:bg-opacity-50 text-white rounded-full p-1 md:p-2 focus:outline-none transition-all duration-300 pointer-events-auto"
-                            onClick={goToPrevSlide}
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                goToPrevSlide()
+                            }}
                             aria-label="Previous slide"
                         >
                             <ChevronLeft size={24} strokeWidth={2} />
@@ -296,7 +319,10 @@ const SuKien = () => {
 
                         <button
                             className="absolute right-1 md:right-3 bg-black bg-opacity-30 hover:bg-opacity-50 text-white rounded-full p-1 md:p-2 focus:outline-none transition-all duration-300 pointer-events-auto"
-                            onClick={goToNextSlide}
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                goToNextSlide()
+                            }}
                             aria-label="Next slide"
                         >
                             <ChevronRight size={24} strokeWidth={2} />
