@@ -6,7 +6,7 @@ const slides = [
         id: 1,
         title: "Sinh viên 5 tốt",
         description:
-            "Khoa KH&KT Máy tính tự hào là đơn vị dẫn đầu ở nhiều cấp độ trong phong trào Sinh viên 5 tốt. Năm 2023, khoa KH&KT Máy tính có 88 gương SV5T cấp Trường, 74 gương SV5T cấp ĐHQG, 75 gương SV5T cấp Thành phố và đặc biệt 20 gương SV5T cấp Trung ương.",
+            "Khoa KH&KT Máy tính tự hào là đơn vị dẫn đầu ở nhiều cấp độ trong phong trào Sinh viên 5 tốt. Năm 2024, khoa KH&KT Máy tính có 88 gương SV5T cấp Trường, 74 gương SV5T cấp ĐHQG, 75 gương SV5T cấp Thành phố và đặc biệt 20 gương SV5T cấp Trung ương.",
         image: "./source-su-kien/SV5T.jpg",
         alt: "SV5T",
     },
@@ -368,7 +368,7 @@ const SuKien = () => {
                                     {slide.title}
                                 </h2>
                                 <p
-                                    className="text-xs md:text-base md:max-w-2xl line-clamp-2 md:line-clamp-none"
+                                    className="text-xs md:text-base line-clamp-2 md:line-clamp-none"
                                     style={{ fontFamily: "Montserrat, sans-serif" }}
                                 >
                                     {slide.description}

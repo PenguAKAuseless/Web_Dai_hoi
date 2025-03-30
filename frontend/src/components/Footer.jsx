@@ -41,7 +41,7 @@ const Footer = () => {
                             <div className="font-bold">Trường Đại học Bách khoa - ĐHQG-HCM</div>
                             <div className="leading-[1.3] text-sm font-thin mt-2">
                                 <b>E: </b>
-                                <a href="mailto:dtn-ktmt@hcmut.edu.vn" className=" ">
+                                <a href="mailto:dtn-ktmt@hcmut.edu.vn" className=" cursor-pointer " >
                                     dtn-ktmt@hcmut.edu.vn
                                 </a>
                             </div>
@@ -51,7 +51,7 @@ const Footer = () => {
                             </div>
                             <div className="flex justify-center sm:justify-start sm:-ml-2 ">
                                 <div className="w-10 h-10">
-                                    <a href="https://fb.com/BKCSE.Multimedia">
+                                    <a href="https://fb.com/BKCSE.Multimedia" target="_blank" rel="noopener noreferrer" >
                                         <img src="/signature/facebook_icon.png" alt="Facebook icon" />
                                     </a>
                                 </div>
@@ -62,7 +62,7 @@ const Footer = () => {
 
                 {/* Map Section */}
                 <div className="w-full md:w-1/2">
-                    <div className="flex items-center justify-center h-full">
+                    <div className="flex items-center justify-center h-full cursor-pointer">
                         <iframe
                             src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1554.898702234986!2d106.80546955575784!3d10.880056318887936!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174d914866b51c9%3A0x913146948e01ee20!2zTmjDoCBINiBUcsaw4budbmcgxJHhuqFpIGhhu41jIELDoWNoIEtob2EgVHBIQ00!5e0!3m2!1svi!2sus!4v1743244636028!5m2!1svi!2sus"
                             loading="lazy"
@@ -77,7 +77,7 @@ const Footer = () => {
             <div className="w-full text-center mt-6 sm:mt-4 pt-4 border-t-2 border-white font-bold ">
                 © BẢN QUYỀN THUỘC VỀ {isMobile && <br />} LIÊN CHI HỘI KHOA KHOA HỌC VÀ KỸ THUẬT MÁY TÍNH
             </div>
-            
+
         </div>
     )
 }

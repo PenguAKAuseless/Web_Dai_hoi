@@ -42,7 +42,7 @@ const sv5tMembers = [
         thanhTich: "Sinh viên 5 tốt cấp Trung ương năm học 2022 - 2023",
     },
     {
-        filename: "1914914_Lê Thanh Sang.jpg",
+        filename: "1914914_Lê Thanh Sang.png",
         thanhTich: "Sinh viên 5 tốt cấp Trung ương năm học 2022 - 2023",
     },
     {

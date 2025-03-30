@@ -328,7 +328,7 @@ const KhenThuong = () => {
                                 <h2 className="text-lg md:text-3xl font-bold mb-1 md:mb-2" style={{ fontFamily: "Montserrat, sans-serif" }}>
                                     {slide.title}
                                 </h2>
-                                <p className="text-xs md:text-base md:max-w-2xl line-clamp-2 md:line-clamp-none" style={{ fontFamily: "Montserrat, sans-serif" }}>
+                                <p className="text-xs md:text-base line-clamp-2 md:line-clamp-none" style={{ fontFamily: "Montserrat, sans-serif" }}>
                                     {slide.description}
                                 </p>
                             </div>
