@@ -2,51 +2,58 @@ import { useState, useEffect, useCallback, useRef } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
 const slides = [
+    // Ngày hội việc làm
     {
         id: 1,
-        title: "Sinh viên 5 tốt",
+        title: "CSE Job Fair",
         description:
-            "Khoa KH&KT Máy tính tự hào là đơn vị dẫn đầu ở nhiều cấp độ trong phong trào Sinh viên 5 tốt. Năm 2024, khoa KH&KT Máy tính có 88 gương SV5T cấp Trường, 74 gương SV5T cấp ĐHQG, 75 gương SV5T cấp Thành phố và đặc biệt 20 gương SV5T cấp Trung ương.",
-        image: "./source-su-kien/SV5T.jpg",
-        alt: "SV5T",
+            "Ngày hội việc làm tạo cầu nối giữa sinh viên và các doanh nghiệp trên lĩnh vực Công nghệ thông tin",
+        image: "./source-su-kien/CSE_Job_Fair.jpg",
+        alt: "CSE Job Fair",
     },
+
+    // Sinh viên 5 tốt
     {
         id: 2,
-        title: "CSE Minathon",
+        title: "Sinh viên 5 tốt",
         description:
-            "Cuộc thi CSE Minathon 2025 khơi dậy tinh thần sáng tạo và hợp tác trong lĩnh vực lập trình, là nơi các tài năng trẻ Bách khoa tỏa sáng",
-        image: "./source-su-kien/CSE_Minathon_2024.jpg",
-        alt: "CSE_Minathon_2024",
+            "Khoa KH&KT Máy tính tự hào là đơn vị dẫn đầu ở nhiều cấp độ trong phong trào Sinh viên 5 tốt.",
+        image: "./source-su-kien/SV5T.jpg",
+        alt: "Sinh viên 5 tốt",
     },
+
+    // Hoạt động tình nguyện
     {
         id: 3,
-        title: "Chiến dịch Mùa hè xanh",
-        description: "Chiến dịch với hoạt động truyền thống bê tông hóa các tuyến đường huyện Tân Hồng, tỉnh Đồng Tháp",
-        image: "./source-su-kien/MHX_2024.JPG",
-        alt: "MHX_2024",
+        title: "Chiến dịch Xuân tình nguyện",
+        description:
+            "Chiến dịch Xuân tình nguyện mang niềm vui và yêu thương đến mái ấm tình thương và trường học vùng sâu trong dịp Tết Nguyên đán",
+        image: "./source-su-kien/Xuan_tinh_nguyen.jpg",
+        alt: "Chiến dịch Xuân tình nguyện",
     },
     {
         id: 4,
-        title: "CSE Summer School",
-        description:
-            "Trại hè CSE Summer School tạo sân chơi thú vị, giúp các em học sinh khám phá môi trường đại học đầy màu sắc",
-        image: "./source-su-kien/CSE_summer_school.jpg",
-        alt: "CSE_summer_school",
+        title: "Chiến dịch Mùa hè xanh",
+        description: "Chiến dịch với hoạt động truyền thống bê tông hóa các tuyến đường huyện Tân Hồng, tỉnh Đồng Tháp",
+        image: "./source-su-kien/Mua_he_xanh.JPG",
+        alt: "Chiến dịch Mùa hè xanh",
     },
     {
         id: 5,
-        title: "Lễ chào đón Tân sinh viên",
-        description: "Buổi lễ chào đón Tân sinh viên khóa 2024 đón nhận các Tân sinh viên khoa KH&KT Máy tính",
-        image: "./source-su-kien/Chao_mung_tsv_k24.jpg",
-        alt: "Chao_mung_tsv_k24",
-    },
-    {
-        id: 6,
         title: "Đêm hội trăng rằm",
         description:
             "Đêm hội trăng rằm ấm áp với nhiều quà tặng ý nghĩa cho các em thiếu nhi huyện Tân Hồng, tỉnh Đồng Tháp",
-        image: "./source-su-kien/Dem_hoi_trang_ram_2024.jpg",
-        alt: "Dem_hoi_trang_ram_2024",
+        image: "./source-su-kien/Dem_hoi_trang_ram.jpg",
+        alt: "Dem_hoi_trang_ram",
+    },
+
+    // Hoạt động sinh viên
+    {
+        id: 6,
+        title: "Lễ chào đón Tân sinh viên",
+        description: "Buổi lễ chào đón Tân sinh viên khóa 2024 đón nhận các Tân sinh viên khoa KH&KT Máy tính",
+        image: "./source-su-kien/Chao_mung_TSV.jpg",
+        alt: "Lễ chào đón Tân sinh viên",
     },
     {
         id: 7,
@@ -54,173 +61,157 @@ const slides = [
         description:
             "Hội trại chào mừng người bạn mới thu hút hơn 200 trại sinh là tân sinh viên khoa KH&KT Máy tính",
         image: "./source-su-kien/CSE_Connection.jpg",
-        alt: "CSE_Connection",
+        alt: "CSE Connection",
     },
     {
         id: 8,
-        title: "CSE Uprace",
+        title: "CSE Summer School",
         description:
-            "Giải chạy bộ truyền thống rèn luyện thể lực và tinh thần thể thao cho sinh viên trường Đại học Bách khoa - ĐHQG-HCM",
-        image: "./source-su-kien/CSE_Uprace.jpg",
-        alt: "CSE_Uprace",
+            "Trại hè CSE Summer School tạo sân chơi thú vị, giúp các em học sinh khám phá môi trường đại học đầy màu sắc",
+        image: "./source-su-kien/CSE_Summer_School.jpg",
+        alt: "CSE Summer School",
     },
     {
         id: 9,
         title: "Lễ Tốt nghiệp",
         description: "Lễ tốt nghiệp long trọng với nhiều sinh viên khoa KH&KT Máy tính đạt loại giỏi và xuất sắc",
-        image: "./source-su-kien/Le_tot_nghiep_11-2024.jpg",
-        alt: "Le_tot_nghiep_11-2024",
+        image: "./source-su-kien/Le_Tot_nghiep.jpg",
+        alt: "Lễ Tốt nghiệp",
     },
+
+    // Cuộc thi & sự kiện học thuật
     {
         id: 10,
-        title: "Chiến dịch Xuân tình nguyện",
-        description:
-            "Chiến dịch Xuân tình nguyện mang niềm vui và yêu thương đến mái ấm tình thương và trường học vùng sâu trong dịp Tết Nguyên đán",
-        image: "./source-su-kien/XTN_2025.jpg",
-        alt: "XTN_2025",
-    },
-    {
-        id: 11,
-        title: "eCSE Cup",
-        description:
-            "Sân chơi Thể thao điện tử sôi động eCSE Cup là nơi các sinh viên Bách khoa được thỏa sức thể hiện tài năng và đam mê của mình",
-        image: "./source-su-kien/eCSE_CUP_2025.jpg",
-        alt: "eCSE_CUP_2025",
-    },
-    {
-        id: 12,
-        title: "CSE Olympic",
-        description:
-            "Giải thể thao Sinh viên với nhiều bộ môn bóng đá, cầu lông, bóng chuyền, cờ vua... thu hút nhiều tuyển thủ tham gia",
-        image: "./source-su-kien/CSEO.jpg",
-        alt: "CSEO",
-    },
-    {
-        id: 13,
-        title: "CSE Job Fair",
-        description:
-            "Ngày hội việc làm tạo cầu nối giữa sinh viên và các doanh nghiệp trên lĩnh vực Công nghệ thông tin",
-        image: "./source-su-kien/JF.jpg",
-        alt: "JP",
-    },
-    {
-        id: 14,
-        title: "Ngày hội Kỹ thuật",
-        description:
-            "Ngày hội Kỹ thuật là sân chơi sáng tạo dành cho sinh viên đam mê công nghệ, nơi các dự án và sản phẩm đổi mới được trưng bày và giới thiệu",
-        image: "./source-su-kien/Ngay_hoi_kt.jpg",
-        alt: "Ngay_hoi_kt",
-    },
-    {
-        id: 15,
-        title: "Ngày hội Poster",
-        description:
-            "Ngày hội Poster mang đến cơ hội cho sinh viên trình bày các đề tài nghiên cứu khoa học qua những poster trực quan sinh động",
-        image: "./source-su-kien/Ngay_hoi_poster.jpg",
-        alt: "Ngay_hoi_poster",
-    },
-    {
-        id: 16,
-        title: "Seminar Money Forward Vietnam",
-        description:
-            "Buổi seminar từ Money Forward Vietnam mang đến góc nhìn chuyên sâu về môi trường làm việc và cơ hội thực tập cho sinh viên khoa KH&KT Máy tính",
-        image: "./source-su-kien/MFV.jpg",
-        alt: "MFV",
-    },
-    {
-        id: 17,
-        title: "Golden Owl Seminar",
-        description:
-            "Golden Owl Seminar quy tụ những chuyên gia hàng đầu, chia sẻ kiến thức và kinh nghiệm thực tiễn trong lĩnh vực Công nghệ thông tin, giúp sinh viên định hướng và phát triển sự nghiệp",
-        image: "./source-su-kien/Golden_Owl.jpg",
-        alt: "Golden_Owl",
-    },
-    {
-        id: 18,
-        title: "VNG Company Tour",
-        description:
-            "Chuyến tham quan doanh nghiệp VNG mở ra cơ hội trải nghiệm thực tế môi trường làm việc sáng tạo, đồng thời kết nối sinh viên với các chuyên gia công nghệ",
-        image: "./source-su-kien/VNG_Tour.jpg",
-        alt: "VNG_Tour",
-    },
-    {
-        id: 19,
-        title: "FPT Japanese Seminar",
-        description:
-            "FPT Japanese Seminar mang đến những chia sẻ thiết thực về cơ hội học tập và làm việc, giúp sinh viên trang bị kiến thức và kỹ năng cần thiết cho hành trình phát triển sự nghiệp",
-        image: "./source-su-kien/FPT_JP.jpg",
-        alt: "FPT_JP",
-    },
-    {
-        id: 20,
-        title: "FSoft Tour",
-        description:
-            "FSoft Tour là dịp để sinh viên khám phá môi trường làm việc chuyên nghiệp tại FPT Software, tìm hiểu về các dự án công nghệ thực tế và giao lưu với các chuyên gia trong ngành",
-        image: "./source-su-kien/FSoft_Tour.jpg",
-        alt: "FSoft_Tour",
-    },
-    {
-        id: 21,
         title: "Cuộc thi lập trình quốc tế TOFAS",
         description:
-            "Cuộc thi lập trình quốc tế TOFAS là sân chơi đẳng cấp dành cho các tài năng lập trình trẻ, nơi sinh viên có cơ hội tranh tài, thử thách tư duy thuật toán và giao lưu với các lập trình viên xuất sắc trên thế giới",
+            "Cuộc thi lập trình quốc tế TOFAS là sân chơi đẳng cấp dành cho các tài năng lập trình trẻ.",
         image: "./source-su-kien/TOFAS.jpg",
         alt: "TOFAS",
     },
     {
-        id: 22,
+        id: 11,
+        title: "CSE Minathon",
+        description:
+            "Cuộc thi CSE Minathon 2025 khơi dậy tinh thần sáng tạo và hợp tác trong lĩnh vực lập trình.",
+        image: "./source-su-kien/CSE_Minathon.jpg",
+        alt: "CSE_Minathon",
+    },
+    {
+        id: 12,
+        title: "Ngày hội Poster",
+        description:
+            "Ngày hội Poster mang đến cơ hội cho sinh viên trình bày các đề tài nghiên cứu khoa học qua những poster trực quan sinh động.",
+        image: "./source-su-kien/Ngay_hoi_Poster.jpg",
+        alt: "Ngày hội Poster",
+    },
+    {
+        id: 13,
+        title: "Ngày hội Kỹ thuật",
+        description:
+            "Ngày hội Kỹ thuật là sân chơi sáng tạo dành cho sinh viên đam mê công nghệ.",
+        image: "./source-su-kien/Ngay_hoi_Ky_thuat.jpg",
+        alt: "Ngày hội Kỹ thuật",
+    },
+
+    // Sự kiện thể thao & giải trí
+    {
+        id: 14,
+        title: "CSE Uprace",
+        description:
+            "Giải chạy bộ truyền thống rèn luyện thể lực và tinh thần thể thao cho sinh viên.",
+        image: "./source-su-kien/CSE_Uprace.jpg",
+        alt: "CSE Uprace",
+    },
+    {
+        id: 15,
+        title: "eCSE Cup",
+        description:
+            "Sân chơi Thể thao điện tử sôi động eCSE Cup là nơi các sinh viên Bách khoa thể hiện tài năng.",
+        image: "./source-su-kien/eCSE_Cup.jpg",
+        alt: "eCSE Cup",
+    },
+    {
+        id: 16,
+        title: "CSE Olympic",
+        description:
+            "Giải thể thao Sinh viên với nhiều bộ môn bóng đá, cầu lông, bóng chuyền, cờ vua...",
+        image: "./source-su-kien/CSEO.jpg",
+        alt: "CSE Olympic",
+    },
+
+    // Sự kiện từ doanh nghiệp
+    {
+        id: 17,
+        title: "VNG Company Tour",
+        description:
+            "Buổi tham quan VNG mang đến cho sinh viên cơ hội gặp gỡ chuyên gia, khám phá môi trường làm việc và tìm hiểu về cơ hội nghề nghiệp tại VNG.",
+        image: "./source-su-kien/VNG_Tour.jpg",
+        alt: "VNG Company Tour",
+    },
+    {
+        id: 18,
+        title: "FPT Software Tour",
+        description:
+            "Sinh viên được trải nghiệm tòa nhà FTown 3, các cơ hội công việc hàng đầu cùng kinh nghiệm từ diễn giả.",
+        image: "./source-su-kien/FSoft_Tour.jpg",
+        alt: "FPT Software Tour",
+    },
+    {
+        id: 19,
+        title: "KMS Tour",
+        description:
+            "Sinh viên được trải nghiệm cơ sở vật chất thực tế tại KMS, giao lưu gặp gỡ các anh chị trong ngành, và nhận tư vấn CV nhiệt tình",
+        image: "./source-su-kien/KMS_Tour.jpg",
+        alt: "KMS Tour",
+    },
+    {
+        id: 20,
         title: "Sky Mavis Uni Tour",
         description:
-            "Sky Mavis Uni Tour mang đến cơ hội giao lưu và học hỏi từ các chuyên gia trong ngành công nghệ, giúp sinh viên tiếp cận những xu hướng đổi mới và khám phá cơ hội phát triển sự nghiệp",
-        image: "./source-su-kien/Sky_Mavis.jpg",
+            "Sky Mavis Uni Tour cung cấp kiến thức cơ bản về phát triển game, đặc biệt là cơ hội nghề nghiệp và cuộc thi Axie Game Jam.",
+        image: "./source-su-kien/Sky_Mavis_Tour.jpg",
         alt: "Sky_Mavis",
     },
     {
-        id: 23,
-        title: "MGM Technology Partners Vietnam",
-        description:
-            "Buổi giao lưu với MGM Technology Partners Vietnam giúp sinh viên tìm hiểu về môi trường làm việc quốc tế, khám phá các xu hướng công nghệ mới và cơ hội nghề nghiệp tại doanh nghiệp",
-        image: "./source-su-kien/mgm.jpg",
-        alt: "mgm",
+        id: 21,
+        title: "MGM Technology Partners Vietnam Tour",
+        image: "./source-su-kien/MGM_Tour.jpg",
+        alt: "MGM Technology Partners Vietnam Tour",
     },
+    {
+        id: 22,
+        title: 'FPT Workshop "Go Japan"',
+        description:
+            "Workshop giúp sinh viên khám phá cơ hội việc làm IT tại Nhật Bản.",
+        image: "./source-su-kien/Workshop_FPT.jpg",
+        alt: 'FPT Workshop "Go Japan"',
+    },
+    {
+        id: 23,
+        title: "Seminar Money Forward Vietnam",
+        description:
+            "Hội thảo là cơ hội để sinh viên tìm hiểu các dự án từ MFV, và cơ hội thực tập qua chương trình Forwardian To Be",
+        image: "./source-su-kien/Seminar_MFV.jpg",
+        alt: "Seminar Money Forward Vietnam",
+    },
+    {
+        id: 24,
+        title: "Golden Owl Seminar",
+        description:
+            "Buổi hội thảo hỗ trợ sinh viên tìm hiểu ứng dụng AI/ML trong thực tế và kết nối với chuyên gia từ Golden Owl.",
+        image: "./source-su-kien/Seminar_Golden_Owl.jpg",
+        alt: "Golden_Owl",
+    }
 ];
 
 const SuKien = () => {
     const [currentIndex, setCurrentIndex] = useState(0)
     const [touchStart, setTouchStart] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
-    const [imagesLoaded, setImagesLoaded] = useState({})
     const [userInteracted, setUserInteracted] = useState(false)
-    const slidesRef = useRef([])
     const autoPlayTimeoutRef = useRef(null)
     const userInteractionTimeoutRef = useRef(null)
     const thumbnailsRef = useRef(null)
-
-    // Preload images
-    useEffect(() => {
-        const preloadImages = () => {
-            slides.forEach((slide, index) => {
-                const img = new Image()
-                img.src = slide.image
-                img.onload = () => {
-                    setImagesLoaded((prev) => ({
-                        ...prev,
-                        [index]: true,
-                    }))
-                }
-                img.onerror = () => {
-                    console.error(`Failed to load image: ${slide.image}`)
-                    setImagesLoaded((prev) => ({
-                        ...prev,
-                        [index]: true, // Mark as loaded even if error to prevent blocking
-                    }))
-                }
-                slidesRef.current[index] = img
-            })
-        }
-
-        preloadImages()
-    }, [])
 
     // Scroll thumbnails to center the current slide
     useEffect(() => {
@@ -353,6 +344,7 @@ const SuKien = () => {
                             <img
                                 src={slide.image || "/placeholder.svg"}
                                 alt={slide.alt}
+                                loading="lazy"
                                 className="absolute inset-0 w-full h-full object-contain object-center"
                                 onError={(e) => {
                                     e.target.src = "/placeholder.png" // Fallback image
@@ -454,6 +446,7 @@ const SuKien = () => {
                             <img
                                 src={slide.image || "/placeholder.svg"}
                                 alt={`Thumbnail ${index + 1}`}
+                                loading="lazy"
                                 className="w-full h-full object-cover"
                                 onError={(e) => {
                                     e.target.src = "/placeholder.png"

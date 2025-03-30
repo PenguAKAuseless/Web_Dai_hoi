@@ -34,6 +34,7 @@ const Footer = () => {
                                 src="/signature/logo_HSV.png"
                                 alt="Logo Hội Sinh viên Việt Nam"
                                 className="w-24 h-24 md:w-36 md:h-36 object-contain"
+                                loading="lazy"
                             />
                         </div>
                         <div className="text-center sm:text-left sm:ml-4">
@@ -52,7 +53,7 @@ const Footer = () => {
                             <div className="flex justify-center sm:justify-start sm:-ml-2 ">
                                 <div className="w-10 h-10">
                                     <a href="https://fb.com/BKCSE.Multimedia" target="_blank" rel="noopener noreferrer" >
-                                        <img src="/signature/facebook_icon.png" alt="Facebook icon" />
+                                        <img src="/signature/facebook_icon.png" alt="Facebook icon" loading="lazy" />
                                     </a>
                                 </div>
                             </div>

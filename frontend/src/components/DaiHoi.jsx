@@ -61,9 +61,9 @@ const DaiHoi = () => {
             <div className="absolute inset-0 opacity-50"></div>
 
             <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-xl px-4">
-                <img src="./logo.png" alt="Logo" className="mt-4 w-40 h-40 object-contain" />
+                <img src="./logo.png" alt="Logo" className="mt-4 w-40 h-40 object-contain" loading="lazy" />
 
-                <img src="./ten-dai-hoi.png" alt="Đại hội Đại biểu" className="mb-4 max-w-full h-auto" />
+                <img src="./ten-dai-hoi.png" alt="Đại hội Đại biểu" className="mb-4 max-w-full h-auto" loading="lazy" />
 
                 <div className="bg-white bg-opacity-80 rounded-lg p-4 sm:p-6 shadow-2xl shadow-cyan-500/50 w-full">
                     {!isDaiHoi ? (

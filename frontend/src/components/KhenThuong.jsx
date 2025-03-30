@@ -99,36 +99,9 @@ const KhenThuong = () => {
     const [imagesLoaded, setImagesLoaded] = useState({})
     const [userInteracted, setUserInteracted] = useState(false)
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-    const slidesRef = useRef([])
     const autoPlayTimeoutRef = useRef(null)
     const userInteractionTimeoutRef = useRef(null)
     const thumbnailsRef = useRef(null)
-
-    // Preload images
-    useEffect(() => {
-        const preloadImages = () => {
-            slides.forEach((slide, index) => {
-                const img = new Image()
-                img.src = slide.image
-                img.onload = () => {
-                    setImagesLoaded((prev) => ({
-                        ...prev,
-                        [index]: true,
-                    }))
-                }
-                img.onerror = () => {
-                    console.error(`Failed to load image: ${slide.image}`)
-                    setImagesLoaded((prev) => ({
-                        ...prev,
-                        [index]: true, // Mark as loaded even if error to prevent blocking
-                    }))
-                }
-                slidesRef.current[index] = img
-            })
-        }
-
-        preloadImages()
-    }, [])
 
     const goToSlide = useCallback((index) => {
         setIsLoading(true)
@@ -317,6 +290,7 @@ const KhenThuong = () => {
                             <img
                                 src={slide.image || "/placeholder.svg"}
                                 alt={slide.alt}
+                                loading="lazy"
                                 className="absolute inset-y-0 h-full w-full md:w-auto object-contain md:object-cover object-center"
                                 onError={(e) => {
                                     e.target.src = "/placeholder.png" // Fallback image
@@ -398,6 +372,7 @@ const KhenThuong = () => {
                                 src={slide.image || "/placeholder.svg"}
                                 alt={`Thumbnail ${index + 1}`}
                                 className="w-full h-full object-cover"
+                                loading="lazy"
                                 onError={(e) => {
                                     e.target.src = "/placeholder.png"
                                 }}

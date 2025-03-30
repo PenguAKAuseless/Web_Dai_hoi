@@ -42,11 +42,11 @@ const sv5tMembers = [
         thanhTich: "Sinh viên 5 tốt cấp Trung ương năm học 2022 - 2023",
     },
     {
-        filename: "1914914_Lê Thanh Sang.png",
+        filename: "1914914_Lê Thanh Sang.jpg",
         thanhTich: "Sinh viên 5 tốt cấp Trung ương năm học 2022 - 2023",
     },
     {
-        filename: "2010091_Bùi Khánh Vĩnh.jpg",
+        filename: "2010091_Bùi Khánh Vĩnh.png",
         thanhTich: "Sinh viên 5 tốt cấp Trung ương năm học 2023 - 2024",
     },
     {
@@ -114,7 +114,7 @@ const sv5tMembers = [
         thanhTich: "Sinh viên 5 tốt cấp Trung ương năm học 2023 - 2024",
     },
     {
-        filename: "2212779_Đỗ Hoàng Quân.jpg",
+        filename: "2212779_Đỗ Hoàng Quân.png",
         thanhTich: "Sinh viên 5 tốt cấp Trung ương năm học 2023 - 2024",
     },
     {
@@ -270,6 +270,7 @@ export default function SV5TShowcase() {
                                     <img
                                         src={member.imagePath || "/placeholder.svg"}
                                         alt={member.name}
+                                        loading="lazy"
                                         className="w-full h-full object-cover"
                                         style={{
                                             objectPosition: "center top",
