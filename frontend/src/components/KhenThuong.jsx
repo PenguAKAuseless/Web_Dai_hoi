@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useEffect, useCallback, useRef } from "react"
 import { ChevronLeft, ChevronRight, Menu } from "lucide-react"
 
@@ -100,7 +98,7 @@ const KhenThuong = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [imagesLoaded, setImagesLoaded] = useState({})
     const [userInteracted, setUserInteracted] = useState(false)
-    const [showOverlay, setShowOverlay] = useState(false)
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const slidesRef = useRef([])
     const autoPlayTimeoutRef = useRef(null)
     const userInteractionTimeoutRef = useRef(null)
@@ -132,26 +130,6 @@ const KhenThuong = () => {
         preloadImages()
     }, [])
 
-    // Scroll thumbnails to center the current slide
-    useEffect(() => {
-        if (thumbnailsRef.current) {
-            const container = thumbnailsRef.current
-            const thumbnails = container.querySelectorAll("button")
-
-            if (thumbnails[currentIndex]) {
-                const thumbnail = thumbnails[currentIndex]
-                const containerWidth = container.offsetWidth
-                const thumbnailWidth = thumbnail.offsetWidth
-                const scrollPosition = thumbnail.offsetLeft - containerWidth / 2 + thumbnailWidth / 2
-
-                container.scrollTo({
-                    left: scrollPosition,
-                    behavior: "smooth",
-                })
-            }
-        }
-    }, [currentIndex])
-
     const goToSlide = useCallback((index) => {
         setIsLoading(true)
         setCurrentIndex(index)
@@ -182,6 +160,26 @@ const KhenThuong = () => {
         setTouchStart(e.touches[0].clientX)
     }
 
+    // Scroll thumbnails to center the current slide
+    useEffect(() => {
+        if (thumbnailsRef.current) {
+            const container = thumbnailsRef.current
+            const thumbnails = container.querySelectorAll("button")
+
+            if (thumbnails[currentIndex]) {
+                const thumbnail = thumbnails[currentIndex]
+                const containerWidth = container.offsetWidth
+                const thumbnailWidth = thumbnail.offsetWidth
+                const scrollPosition = thumbnail.offsetLeft - containerWidth / 2 + thumbnailWidth / 2
+
+                container.scrollTo({
+                    left: scrollPosition,
+                    behavior: "smooth",
+                })
+            }
+        }
+    }, [currentIndex])
+
     const handleTouchEnd = (e) => {
         const endX = e.changedTouches[0].clientX
         const threshold = 50
@@ -194,10 +192,6 @@ const KhenThuong = () => {
         }
 
         setTouchStart(0)
-    }
-
-    const handleTouchTap = () => {
-        setShowOverlay((prev) => !prev)
     }
 
     // Setup auto-slide every 5 seconds if no user interaction
@@ -222,17 +216,71 @@ const KhenThuong = () => {
         }
     }, [])
 
-    // Function to determine thumbnail opacity based on index
-    const getThumbnailOpacity = (index) => {
-        // On mobile, show only 3 thumbnails with middle one at 100% opacity
-        if (window.innerWidth < 768) {
-            if (index === currentIndex) return "opacity-100"
-            if (index === currentIndex - 1 || index === currentIndex + 1) return "opacity-50"
-            return "opacity-0 hidden md:block" // Hide other thumbnails on mobile
+    // Function to get visible dot indicators (max 3 on mobile)
+    const getVisibleDotIndicators = () => {
+        const totalSlides = slides.length
+
+        // On larger screens, show all dots
+        if (typeof window !== "undefined" && window.innerWidth >= 768) {
+            return slides.map((_, index) => (
+                <button
+                    key={index}
+                    onClick={() => goToSlide(index)}
+                    className={`h-2 md:h-3 w-2 md:w-3 rounded-full focus:outline-none transition-all duration-300 ${currentIndex === index ? "bg-blue-600 scale-125" : "bg-gray-300 hover:bg-gray-400"
+                        }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                />
+            ))
         }
 
-        // On desktop, use the original opacity logic
-        return currentIndex === index ? "opacity-100" : "opacity-70 hover:opacity-100"
+        // On mobile, show max 3 dots centered around current
+        let startIndex = Math.max(0, currentIndex - 1)
+        const endIndex = Math.min(totalSlides - 1, startIndex + 2)
+
+        // Adjust if we're at the end
+        if (endIndex - startIndex < 2 && startIndex > 0) {
+            startIndex = Math.max(0, endIndex - 2)
+        }
+
+        const visibleDots = []
+
+        // Add ellipsis at start if needed
+        if (startIndex > 0) {
+            visibleDots.push(
+                <div key="start-ellipsis" className="h-3 w-3 flex items-center justify-center text-gray-400">
+                    •••
+                </div>,
+            )
+        }
+
+        // Add visible dots
+        for (let i = startIndex; i <= endIndex; i++) {
+            visibleDots.push(
+                <button
+                    key={i}
+                    onClick={() => goToSlide(i)}
+                    className={`h-3 w-3 rounded-full focus:outline-none transition-all duration-300 ${currentIndex === i ? "bg-blue-600 scale-125" : "bg-gray-300 hover:bg-gray-400"
+                        }`}
+                    aria-label={`Go to slide ${i + 1}`}
+                />,
+            )
+        }
+
+        // Add ellipsis at end if needed
+        if (endIndex < totalSlides - 1) {
+            visibleDots.push(
+                <div key="end-ellipsis" className="h-3 w-3 flex items-center justify-center text-gray-400">
+                    •••
+                </div>,
+            )
+        }
+
+        return visibleDots
+    }
+
+    // Toggle mobile menu
+    const toggleMobileMenu = () => {
+        setMobileMenuOpen(!mobileMenuOpen)
     }
 
     return (
@@ -244,8 +292,10 @@ const KhenThuong = () => {
                 fontFamily: "Montserrat, sans-serif",
             }}
         >
+
+
             <h2
-                className="text-2xl md:text-3xl font-bold text-center my-2 md:my-4 text-blue-800"
+                className="text-3xl font-bold text-center my-4 text-blue-800"
                 style={{ fontFamily: "Montserrat Black, sans-serif" }}
             >
                 THÀNH TÍCH
@@ -257,46 +307,28 @@ const KhenThuong = () => {
                     className="h-full transition-all duration-500 ease-in-out"
                     onTouchStart={handleTouchStart}
                     onTouchEnd={handleTouchEnd}
-                    onClick={handleTouchTap}
-                    onMouseEnter={() => setShowOverlay(true)}
-                    onMouseLeave={() => setShowOverlay(false)}
                 >
                     {slides.map((slide, index) => (
                         <div
                             key={slide.id}
-                            className={`absolute inset-0 transition-opacity duration-500 ${currentIndex === index ? "opacity-100 z-10" : "opacity-0 z-0"
-                                }`}
+                            className={`flex inset-0 transition-opacity duration-500 justify-center ${currentIndex === index ? "opacity-100 z-10" : "opacity-0 z-0"
+                                } absolute w-full h-full`}
                         >
                             <img
                                 src={slide.image || "/placeholder.svg"}
                                 alt={slide.alt}
-                                className="absolute inset-0 w-full h-full object-contain object-center"
+                                className="absolute inset-y-0 h-full w-full md:w-auto object-contain md:object-cover object-center"
                                 onError={(e) => {
                                     e.target.src = "/placeholder.png" // Fallback image
                                 }}
                             />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent opacity-80" />
 
-                            {/* Gradient overlay with fade-in animation */}
-                            <div
-                                className={`absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent transition-opacity duration-300 ease-in-out ${showOverlay ? "opacity-80" : "opacity-0"
-                                    }`}
-                            />
-
-                            {/* Text content with fade-in animation */}
-                            <div
-                                className={`absolute bottom-0 left-0 right-0 p-3 md:p-8 text-white z-20 transition-all duration-300 ease-in-out transform ${showOverlay ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                                    }`}
-                            >
-                                <h2
-                                    className="text-lg md:text-3xl font-bold mb-1 md:mb-2"
-                                    style={{ fontFamily: "Montserrat, sans-serif" }}
-                                >
+                            <div className="absolute bottom-0 left-0 right-0 p-3 md:p-8 text-white z-20">
+                                <h2 className="text-lg md:text-3xl font-bold mb-1 md:mb-2" style={{ fontFamily: "Montserrat, sans-serif" }}>
                                     {slide.title}
                                 </h2>
-                                <p
-                                    className="text-xs md:text-base md:max-w-2xl line-clamp-2 md:line-clamp-none"
-                                    style={{ fontFamily: "Montserrat, sans-serif" }}
-                                >
+                                <p className="text-xs md:text-base md:max-w-2xl line-clamp-2 md:line-clamp-none" style={{ fontFamily: "Montserrat, sans-serif" }}>
                                     {slide.description}
                                 </p>
                             </div>
@@ -304,63 +336,39 @@ const KhenThuong = () => {
                     ))}
                 </div>
 
-                {/* Slider Controls - with fade-in animation */}
-                <div
-                    className={`absolute top-0 left-0 right-0 bottom-0 z-20 pointer-events-none transition-opacity duration-300 ease-in-out ${showOverlay ? "opacity-100" : "opacity-0"
-                        }`}
-                >
+                {/* Slider Controls */}
+                <div className="absolute top-0 left-0 right-0 bottom-0 z-20 pointer-events-none">
                     <div className="relative w-full h-full flex items-center justify-between">
                         {/* Navigation Arrows */}
                         <button
-                            className="absolute left-1 md:left-3 bg-black bg-opacity-30 hover:bg-opacity-50 text-white rounded-full p-1 md:p-2 focus:outline-none transition-all duration-300 pointer-events-auto"
-                            onClick={(e) => {
-                                e.stopPropagation()
-                                goToPrevSlide()
-                            }}
+                            className="absolute left-3 bg-black bg-opacity-30 hover:bg-opacity-50 text-white rounded-full p-2 focus:outline-none transition-all duration-300 pointer-events-auto"
+                            onClick={goToPrevSlide}
                             aria-label="Previous slide"
                         >
-                            <ChevronLeft size={24} strokeWidth={2} />
+                            <ChevronLeft size={28} strokeWidth={2} />
                         </button>
 
                         <button
-                            className="absolute right-1 md:right-3 bg-black bg-opacity-30 hover:bg-opacity-50 text-white rounded-full p-1 md:p-2 focus:outline-none transition-all duration-300 pointer-events-auto"
-                            onClick={(e) => {
-                                e.stopPropagation()
-                                goToNextSlide()
-                            }}
+                            className="absolute right-3 bg-black bg-opacity-30 hover:bg-opacity-50 text-white rounded-full p-2 focus:outline-none transition-all duration-300 pointer-events-auto"
+                            onClick={goToNextSlide}
                             aria-label="Next slide"
                         >
-                            <ChevronRight size={24} strokeWidth={2} />
+                            <ChevronRight size={28} strokeWidth={2} />
                         </button>
                     </div>
                 </div>
             </div>
 
-            {/* Dot indicators - Show only 5 on mobile */}
-            <div className="flex justify-center mt-2 md:mt-3 space-x-1 md:space-x-2">
-                {slides.map((_, index) => {
-                    // On mobile, only show dots for current and 2 on each side
-                    const shouldShow = window.innerWidth >= 768 || (index >= currentIndex - 2 && index <= currentIndex + 2)
+            {/* Dot indicators - limited to 3 on mobile */}
+            <div className="flex justify-center mt-3 space-x-2">{getVisibleDotIndicators()}</div>
 
-                    return shouldShow ? (
-                        <button
-                            key={index}
-                            onClick={() => goToSlide(index)}
-                            className={`h-2 md:h-3 w-2 md:w-3 rounded-full focus:outline-none transition-all duration-300 ${currentIndex === index ? "bg-blue-600 scale-125" : "bg-gray-300 hover:bg-gray-400"
-                                }`}
-                            aria-label={`Go to slide ${index + 1}`}
-                        />
-                    ) : null
-                })}
-            </div>
-
-            {/* Thumbnails - Mobile optimized */}
+            {/* Thumbnails */}
             <div
                 ref={thumbnailsRef}
                 className="no-scrollbar overflow-x-auto py-2 md:py-4 px-2 md:px-4 gap-1 md:gap-2 max-w-6xl mx-auto mt-1 md:mt-2 bg-white bg-opacity-10 backdrop-blur-sm rounded-lg flex items-center"
                 style={{
-                    msOverflowStyle: "none", // IE and Edge
-                    scrollbarWidth: "none", // Firefox
+                    msOverflowStyle: 'none',   // IE and Edge
+                    scrollbarWidth: 'none',    // Firefox
                 }}
             >
                 {slides.map((slide, index) => {
@@ -398,6 +406,25 @@ const KhenThuong = () => {
                     )
                 })}
             </div>
+
+            {/* Custom CSS for no scrollbar */}
+            <style jsx>{`
+                .no-scrollbar::-webkit-scrollbar {
+                    display: none;
+                }
+                
+                @media (max-width: 768px) {
+                    .no-scrollbar {
+                        -webkit-overflow-scrolling: touch;
+                        scroll-snap-type: x mandatory;
+                        scroll-behavior: smooth;
+                    }
+                    
+                    .no-scrollbar > button {
+                        scroll-snap-align: center;
+                    }
+                }
+            `}</style>
         </div>
     )
 }

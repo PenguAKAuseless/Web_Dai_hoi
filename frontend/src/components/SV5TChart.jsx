@@ -3,7 +3,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 
 const data = [
     { level: "Cấp Trường", "2022-2023": 100, "2023-2024": 88 },
-    { level: "Cấp DHQG", "2022-2023": 95, "2023-2024": 74 },
+    { level: "Cấp ĐHQG", "2022-2023": 95, "2023-2024": 74 },
     { level: "Cấp Thành", "2022-2023": 43, "2023-2024": 75 },
     { level: "Cấp TW", "2022-2023": 11, "2023-2024": 20 },
 ];

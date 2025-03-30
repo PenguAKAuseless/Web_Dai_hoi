@@ -302,7 +302,7 @@ export default function SV5TShowcase() {
                             <h2 className="text-base md:text-2xl font-bold" style={{ color: "#4472c4" }}>
                                 MSSV: {sv5tMembers[currentIndex].mssv}
                             </h2>
-                            <p className="text-xl md:text-4xl font-bold -mt-1 md:mt-2" style={{ color: "#ed7d31" }}>
+                            <p className="text-xl md:text-4xl font-bold -mt-1" style={{ color: "#ed7d31" }}>
                                 {sv5tMembers[currentIndex].name}
                             </p>
                         </div>
