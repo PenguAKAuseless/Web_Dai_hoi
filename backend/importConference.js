@@ -82,7 +82,7 @@ async function importData() {
                 const name = row["Name"];
                 const image = row["Image"];
 
-                if (!delegateId || !name || !ethnic || !image) {
+                if (!delegateId || !name || !image) {
                     console.log(`Skipping invalid row: ${JSON.stringify(row)}`);
                     skipCount++;
                     continue;
