@@ -68,11 +68,6 @@ async function importData() {
                 CREATE TABLE IF NOT EXISTS conference (
                 delegate_id VARCHAR(7) PRIMARY KEY,
                 name TEXT NOT NULL,
-                type BOOLEAN NOT NULL,
-                gender BOOLEAN NOT NULL,
-                ethnic TEXT NOT NULL,
-                dang_vien BOOLEAN NOT NULL,
-                hoi_vien BOOLEAN NOT NULL,
                 image TEXT NOT NULL
                 );
             `);
@@ -85,11 +80,6 @@ async function importData() {
             for (const row of results) {
                 const delegateId = row["MSCB_MSSV"];
                 const name = row["Name"];
-                const type = row["Type"] === "Đương nhiên";
-                const gender = row["Gender"] === "Nữ";
-                const ethnic = row["Ethnic"];
-                const dangVien = row["Dang_vien"] === "TRUE";
-                const hoiVien = row["Hoi_vien"] == "TRUE";
                 const image = row["Image"];
 
                 if (!delegateId || !name || !ethnic || !image) {
@@ -110,8 +100,8 @@ async function importData() {
                 }
 
                 await client.query(
-                    "INSERT INTO conference (delegate_id, name, type, gender, ethnic, dang_vien, hoi_vien, image) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
-                    [delegateId, name, type, gender, ethnic, dangVien, hoiVien, image]
+                    "INSERT INTO conference (delegate_id, name, image) VALUES ($1, $2, $3)",
+                    [delegateId, name, image]
                 );
 
                 successCount++;

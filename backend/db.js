@@ -35,11 +35,6 @@ async function initDB() {
       CREATE TABLE IF NOT EXISTS conference (
         delegate_id VARCHAR(7) PRIMARY KEY,
         name TEXT NOT NULL,
-        type BOOLEAN NOT NULL,
-        gender BOOLEAN NOT NULL,
-        ethnic TEXT NOT NULL,
-        dang_vien BOOLEAN NOT NULL,
-        hoi_vien BOOLEAN NOT NULL,
         image TEXT NOT NULL
       );
       CREATE TABLE IF NOT EXISTS attendance_log (

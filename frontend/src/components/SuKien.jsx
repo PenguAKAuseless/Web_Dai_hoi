@@ -175,6 +175,8 @@ const slides = [
     {
         id: 21,
         title: "MGM Technology Partners Vietnam Tour",
+        description:
+            "Buổi tham quan tại MGM Technology Partners Vietnam giúp sinh viên khám phá môi trường làm việc, gặp gỡ chuyên gia tại đây.",
         image: "./source-su-kien/MGM_Tour.jpg",
         alt: "MGM Technology Partners Vietnam Tour",
     },
